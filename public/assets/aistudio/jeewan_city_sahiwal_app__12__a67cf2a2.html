@@ -1,0 +1,2918 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeewan City Sahiwal - Community Alerts &amp; Local Bazaar</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- QRCode.js for scannable shopkeeper counter standees -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .jeewan-serif {
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .toast-enter {
+            animation: slideDown 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(0); opacity: 1; }
+            to { transform: translateY(-100%); opacity: 0; }
+        }
+        .toast-exit {
+            animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes pulseCaret {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .splash-caret {
+            display: inline-block;
+            width: 3px;
+            height: 1.05em;
+            background-color: #008f39;
+            margin-left: 4px;
+            vertical-align: middle;
+            animation: pulseCaret 0.7s infinite;
+        }
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printableStandee, #printableStandee * {
+                visibility: visible;
+            }
+            #printableStandee {
+                position: fixed;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                width: 340px;
+                border: 2px solid #008f39;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased selection:bg-emerald-100 selection:text-emerald-900">
+
+    <!-- ANIMATED JEEWAN CITY SPLASH INTRO SCREEN -->
+    <div id="jeewanSplashScreen" class="fixed inset-0 z-[70] bg-white flex flex-col items-center justify-center p-6 transition-opacity duration-500">
+        <div class="flex flex-col items-center text-center">
+            <!-- Official Jeewan City Roof Emblem Only -->
+            <svg class="w-40 h-24 mb-2" viewBox="85 0 135 50" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Jeewan City Emblem">
+                <polygon points="103,40 124,20 132,20 111,40" fill="#008f39"/>
+                <polygon points="124,20 138,40 112,40" fill="#008f39"/>
+                <polygon points="131,26 151,6 160,6 140,26" fill="#008f39"/>
+                <polygon points="151,6 184,6 202,40 164,40" fill="#008f39"/>
+            </svg>
+
+            <!-- Auto-Typing JEEWAN CITY Text Underneath -->
+            <div class="min-h-[54px] flex items-center justify-center">
+                <span id="splashTypedText" class="jeewan-serif text-3xl sm:text-4xl font-bold tracking-wider text-[#1b1a68]"></span>
+                <span id="splashCaret" class="splash-caret"></span>
+            </div>
+
+            <!-- Official Green Underline Curve -->
+            <svg id="splashUnderline" class="w-64 h-7 mt-1 opacity-0 transition-opacity duration-500" viewBox="50 88 265 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 60 107 C 130 92, 165 95, 198 112 C 228 126, 265 103, 305 107 C 265 110, 228 134, 196 119 C 162 103, 128 99, 60 107 Z" fill="#008f39"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- AUTHENTICATION MODAL (Google, Facebook, Guest Mode, & Email/Password) -->
+    <div id="authModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-xs hidden items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl border border-slate-200 my-auto relative">
+            <button type="button" id="closeAuthModalBtn" onclick="closeModal('authModal')" class="hidden absolute right-3 top-3 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center text-sm font-bold z-10" title="Back to Guest Mode">✕</button>
+            <div class="bg-white border-b border-slate-100 p-4 text-center space-y-1">
+                <!-- Official Jeewan City SVG Logo -->
+                <div class="flex justify-center">
+                    <svg class="h-14 w-auto" viewBox="0 0 360 135" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Jeewan City Logo">
+                        <polygon points="103,40 124,20 132,20 111,40" fill="#008f39"/>
+                        <polygon points="124,20 138,40 112,40" fill="#008f39"/>
+                        <polygon points="131,26 151,6 160,6 140,26" fill="#008f39"/>
+                        <polygon points="151,6 184,6 202,40 164,40" fill="#008f39"/>
+                        <text x="180" y="88" text-anchor="middle" fill="#1b1a68" font-family="Georgia, 'Times New Roman', serif" font-weight="bold">
+                            <tspan font-size="60">J</tspan><tspan font-size="44">EEWAN </tspan><tspan font-size="60">C</tspan><tspan font-size="44">ITY</tspan>
+                        </text>
+                        <path d="M 60 107 C 130 92, 165 95, 198 112 C 228 126, 265 103, 305 107 C 265 110, 228 134, 196 119 C 162 103, 128 99, 60 107 Z" fill="#008f39"/>
+                    </svg>
+                </div>
+                <p class="text-[11px] font-semibold text-slate-500">Official Sahiwal Community Alerts, Chat &amp; Local Bazaar</p>
+            </div>
+
+            <div class="p-4 space-y-3">
+                <div class="space-y-2">
+                    <button type="button" onclick="handleGuestLogin()" id="guestLoginBtn"
+                        class="w-full py-2.5 px-4 rounded-xl bg-[#008f39] hover:bg-emerald-800 text-white font-extrabold text-xs shadow-sm flex items-center justify-center gap-2 active:scale-[0.99] transition">
+                        <span>👤</span>
+                        <span>Continue as Guest (Instant Access)</span>
+                    </button>
+
+                    <button type="button" onclick="handleGoogleLogin()" id="googleLoginBtn"
+                        class="w-full py-2.5 px-4 rounded-xl bg-white hover:bg-slate-50 text-slate-800 font-bold text-xs border border-slate-300 shadow-2xs flex items-center justify-center gap-2.5 active:scale-[0.99] transition">
+                        <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17Z"/>
+                            <path fill="#34A853" d="M12 24c3.3 0 6.08-1.09 8.1-2.96l-3.88-3.05c-1.1.74-2.51 1.18-4.22 1.18-3.24 0-5.99-2.19-6.97-5.13H1.02v3.14C3.05 21.2 7.24 24 12 24Z"/>
+                            <path fill="#FBBC05" d="M5.03 14.04c-.25-.74-.39-1.54-.39-2.36 0-.82.14-1.62.39-2.36V6.18H1.02C.37 7.47 0 8.91 0 10.44s.37 2.97 1.02 4.26l4.01-3.14Z"/>
+                            <path fill="#EA4335" d="M12 4.75c1.79 0 3.41.62 4.68 1.82l3.51-3.51C18.07 1.19 15.3 0 12 0 7.24 0 3.05 2.8 1.02 6.82l4.01 3.14c.98-2.94 3.73-5.21 6.97-5.21Z"/>
+                        </svg>
+                        <span>Continue with Google</span>
+                    </button>
+
+                    <button type="button" onclick="handleFacebookLogin()" id="facebookLoginBtn"
+                        class="w-full py-2.5 px-4 rounded-xl bg-[#1877F2] hover:bg-[#166FE5] text-white font-bold text-xs shadow-2xs flex items-center justify-center gap-2.5 active:scale-[0.99] transition">
+                        <svg class="w-4 h-4 fill-current shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                        <span>Continue with Facebook</span>
+                    </button>
+                </div>
+
+                <div id="authConfigHelpBox" class="hidden bg-amber-50 border border-amber-300 rounded-xl p-2.5 text-[11px] text-amber-950 space-y-1">
+                    <p id="authConfigHelpTitle" class="font-extrabold text-red-700"></p>
+                    <p id="authConfigHelpDesc" class="leading-relaxed"></p>
+                </div>
+
+                <div class="relative flex items-center py-0.5">
+                    <div class="flex-grow border-t border-slate-200"></div>
+                    <span class="shrink mx-2.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">Or with Email</span>
+                    <div class="flex-grow border-t border-slate-200"></div>
+                </div>
+
+                <div class="grid grid-cols-2 bg-slate-100 p-1 rounded-xl text-xs font-bold text-center">
+                    <button type="button" id="authTabLogin" onclick="switchAuthMode('login')" class="py-1.5 rounded-lg bg-white text-slate-900 shadow-xs transition">Login</button>
+                    <button type="button" id="authTabRegister" onclick="switchAuthMode('register')" class="py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition">Register</button>
+                </div>
+
+                <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-2.5 text-xs">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Email Address</label>
+                        <input type="email" id="loginEmail" required placeholder="resident@jeewancity.com"
+                            class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:border-[#008f39] focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Password</label>
+                        <input type="password" id="loginPassword" required placeholder="••••••••"
+                            class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:border-[#008f39] focus:outline-none">
+                    </div>
+                    <p id="loginErrorMsg" class="hidden text-red-600 font-semibold"></p>
+                    <button type="submit" id="loginSubmitBtn" class="w-full py-2.5 rounded-xl bg-[#1b1a68] hover:opacity-95 text-white font-bold text-xs shadow-md transition">
+                        Login with Email
+                    </button>
+                </form>
+
+                <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-2.5 text-xs hidden">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Full Name</label>
+                        <input type="text" id="regName" required placeholder="Muhammad Bilal"
+                            class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:border-[#008f39] focus:outline-none">
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">Phase / House</label>
+                            <input type="text" id="regBlock" required placeholder="Phase 1, H#12"
+                                class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:border-[#008f39] focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-semibold text-slate-700 mb-1">Phone Number</label>
+                            <input type="tel" id="regPhone" required placeholder="03001234567"
+                                class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:border-[#008f39] focus:outline-none">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Email Address</label>
+                        <input type="email" id="regEmail" required placeholder="resident@jeewancity.com"
+                            class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:border-[#008f39] focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Password (Min 6 chars)</label>
+                        <input type="password" id="regPassword" required placeholder="••••••••"
+                            class="w-full px-3.5 py-2 rounded-xl border border-slate-300 focus:border-[#008f39] focus:outline-none">
+                    </div>
+                    <p id="regErrorMsg" class="hidden text-red-600 font-semibold"></p>
+                    <button type="submit" id="regSubmitBtn" class="w-full py-2.5 rounded-xl bg-[#1b1a68] hover:opacity-95 text-white font-bold text-xs shadow-md transition">
+                        Register Account
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- STARTUP PERMISSIONS MODAL (Notifications & File/Media Access) -->
+    <div id="permissionsModal" class="fixed inset-0 z-[65] bg-slate-950/80 backdrop-blur-xs hidden items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl border border-slate-200">
+            <div class="bg-gradient-to-r from-[#1b1a68] to-[#008f39] text-white p-4 text-center space-y-1">
+                <div class="w-12 h-12 rounded-2xl bg-white/15 mx-auto flex items-center justify-center text-2xl">🔔</div>
+                <h3 class="font-extrabold text-sm">Enable App Permissions</h3>
+                <p class="text-[11px] text-emerald-100">Allow Jeewan City Sahiwal to send post alerts &amp; attach files</p>
+            </div>
+            <div class="p-4 space-y-3 text-xs">
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3 flex items-start gap-3">
+                    <span class="text-lg shrink-0">📲</span>
+                    <div>
+                        <p class="font-extrabold text-slate-900">Device &amp; Desktop Notifications</p>
+                        <p class="text-[11px] text-slate-500 leading-snug">Get real system alerts on your phone or PC when neighbors post updates or power alerts.</p>
+                    </div>
+                </div>
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3 flex items-start gap-3">
+                    <span class="text-lg shrink-0">📁</span>
+                    <div>
+                        <p class="font-extrabold text-slate-900">Photos, Videos &amp; File Access</p>
+                        <p class="text-[11px] text-slate-500 leading-snug">Select images, videos, or documents from your device when creating a post.</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 pt-1">
+                    <button type="button" onclick="dismissPermissionsModal()" class="py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
+                        Not Now
+                    </button>
+                    <button type="button" onclick="requestAppPermissions()" class="py-2.5 rounded-xl bg-[#008f39] hover:bg-emerald-800 text-white font-extrabold text-xs shadow-md transition">
+                        Allow Permissions
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GUEST / RESIDENT PROFILE EDIT MODAL (WITH PROFILE PICTURE UPLOAD) -->
+    <div id="guestProfileModal" class="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-xs hidden items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl border border-slate-200 my-auto">
+            <div class="bg-[#1b1a68] text-white px-4 py-3.5 flex items-center justify-between">
+                <h3 class="font-bold text-sm">Edit Resident Profile &amp; Picture</h3>
+                <button type="button" onclick="closeModal('guestProfileModal')" class="w-8 h-8 rounded-full bg-white/15 text-white flex items-center justify-center text-sm">✕</button>
+            </div>
+            <form onsubmit="saveGuestProfile(event)" class="p-4 space-y-3 text-xs">
+                <!-- Profile Avatar Picker -->
+                <div class="flex flex-col items-center justify-center space-y-2 py-1">
+                    <div class="relative">
+                        <div id="profileModalAvatarPreview" class="w-20 h-20 rounded-full bg-slate-200 border-2 border-[#008f39] overflow-hidden flex items-center justify-center text-2xl font-extrabold text-[#1b1a68]">
+                            J
+                        </div>
+                        <label class="absolute bottom-0 right-0 w-7 h-7 bg-[#008f39] text-white rounded-full flex items-center justify-center cursor-pointer shadow-md hover:bg-emerald-800 transition" title="Upload Photo">
+                            📷
+                            <input type="file" id="profileAvatarFileInput" accept="image/*" onchange="handleAvatarFileSelect(event)" class="hidden">
+                        </label>
+                    </div>
+                    <p class="text-[10px] text-slate-500 font-semibold">Tap camera icon to upload profile picture</p>
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Your Name</label>
+                    <input type="text" id="guestNameInput" required placeholder="e.g., Ali Raza"
+                        class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:border-[#008f39] focus:outline-none">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Phase / House No.</label>
+                    <input type="text" id="guestBlockInput" required placeholder="e.g., Phase 1, House 14"
+                        class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:border-[#008f39] focus:outline-none">
+                </div>
+                <button type="submit" class="w-full py-3 rounded-xl bg-[#008f39] hover:bg-emerald-800 text-white font-bold text-sm shadow-md transition">
+                    Save Profile
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- FULL-SCREEN MEDIA VIEWER MODAL FOR PHOTOS & VIDEOS -->
+    <div id="fullScreenMediaModal" class="fixed inset-0 z-[90] bg-black/95 hidden flex-col items-center justify-center p-3">
+        <button type="button" onclick="closeFullScreenMedia()" class="absolute right-4 top-4 w-10 h-10 rounded-full bg-white/20 text-white hover:bg-white/30 flex items-center justify-center text-lg font-bold z-50">✕</button>
+        <div id="fullScreenMediaContainer" class="w-full h-full flex items-center justify-center p-2"></div>
+        <div class="absolute bottom-6 flex items-center gap-3">
+            <a id="fullScreenDownloadBtn" href="#" download="media" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-xl bg-[#008f39] hover:bg-emerald-800 text-white font-bold text-xs shadow-lg flex items-center gap-2 transition">
+                <span>💾</span> Download / Save Media
+            </a>
+        </div>
+    </div>
+
+    <!-- SHOPKEEPER QR STANDEE MODAL -->
+    <div id="qrModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-xs hidden items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl border border-slate-200 my-auto">
+            <div class="bg-[#1b1a68] text-white p-4 flex items-center justify-between">
+                <div>
+                    <h3 class="font-extrabold text-sm">Shopkeeper QR Standee</h3>
+                    <p class="text-[11px] text-slate-200">Place on your shop counter</p>
+                </div>
+                <button type="button" onclick="closeModal('qrModal')" class="w-8 h-8 rounded-full bg-white/20 text-white flex items-center justify-center text-sm font-bold">✕</button>
+            </div>
+            <div class="p-5 space-y-4 text-center">
+                <div id="printableStandee" class="bg-white border-2 border-[#008f39] rounded-2xl p-5 shadow-lg space-y-3">
+                    <div class="space-y-0.5">
+                        <div class="flex justify-center">
+                            <svg class="h-12 w-auto" viewBox="0 0 360 135" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <polygon points="103,40 124,20 132,20 111,40" fill="#008f39"/>
+                                <polygon points="124,20 138,40 112,40" fill="#008f39"/>
+                                <polygon points="131,26 151,6 160,6 140,26" fill="#008f39"/>
+                                <polygon points="151,6 184,6 202,40 164,40" fill="#008f39"/>
+                                <text x="180" y="88" text-anchor="middle" fill="#1b1a68" font-family="Georgia, 'Times New Roman', serif" font-weight="bold">
+                                    <tspan font-size="60">J</tspan><tspan font-size="44">EEWAN </tspan><tspan font-size="60">C</tspan><tspan font-size="44">ITY</tspan>
+                                </text>
+                                <path d="M 60 107 C 130 92, 165 95, 198 112 C 228 126, 265 103, 305 107 C 265 110, 228 134, 196 119 C 162 103, 128 99, 60 107 Z" fill="#008f39"/>
+                            </svg>
+                        </div>
+                        <p class="text-[10px] uppercase tracking-wider font-extrabold text-[#008f39]">Sahiwal Official Colony &amp; Bazaar App</p>
+                    </div>
+
+                    <div class="bg-white p-3 rounded-xl border border-emerald-200 inline-block shadow-xs mx-auto">
+                        <div id="qrCodeCanvas" class="flex justify-center"></div>
+                    </div>
+
+                    <div class="space-y-1 text-xs">
+                        <p class="font-extrabold text-slate-900">Scan for Daily Offers &amp; Power Alerts</p>
+                        <p class="text-[11px] text-slate-600">Bijli updates aur dukanon ke discount ke liye scan karein!</p>
+                    </div>
+
+                    <div class="pt-2 border-t border-emerald-100 flex items-center justify-between text-[10px] text-[#008f39] font-bold">
+                        <span>⚡ 100% Free Access</span>
+                        <span>🛒 Local Sahiwal Bazaar</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                    <button type="button" onclick="window.print()" class="py-2.5 rounded-xl bg-[#008f39] hover:bg-emerald-800 text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-1.5">
+                        <span>🖨️</span> Print Standee
+                    </button>
+                    <button type="button" onclick="copyAppLink()" class="py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs transition flex items-center justify-center gap-1.5">
+                        <span>🔗</span> Copy Link
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STREET OUTAGE REPORT MODAL -->
+    <div id="tipModal" class="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-xs hidden items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl border border-slate-200">
+            <div class="bg-amber-600 text-white px-4 py-3.5 flex items-center justify-between">
+                <h3 class="font-bold text-sm">Report Street / Area Outage</h3>
+                <button type="button" onclick="closeModal('tipModal')" class="w-8 h-8 rounded-full bg-white/20 text-white flex items-center justify-center text-sm">✕</button>
+            </div>
+            <form onsubmit="submitResidentTip(event)" class="p-4 space-y-3 text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Your Phase / Street</label>
+                    <input type="text" id="tipBlock" required placeholder="e.g., Phase 1, Street 4"
+                        class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:border-amber-600 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Estimated Duration</label>
+                    <input type="text" id="tipDuration" required placeholder="e.g., 2 Hours / Transformer Sparking"
+                        class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:border-amber-600 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Details / Issue</label>
+                    <textarea id="tipDetails" rows="2" required placeholder="Briefly describe what happened..."
+                        class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:border-amber-600 focus:outline-none"></textarea>
+                </div>
+                <button type="submit" id="submitTipBtn" class="w-full py-3 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-sm shadow-md transition">
+                    Send Outage Tip to Neighbors
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- APP SETTINGS MODAL -->
+    <div id="settingsModal" class="fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-xs hidden items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl border border-slate-200">
+            <div class="bg-[#1b1a68] text-white px-4 py-3.5 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span>⚙️</span>
+                    <h3 class="font-extrabold text-sm">App Settings</h3>
+                </div>
+                <button type="button" onclick="closeModal('settingsModal')" class="w-8 h-8 rounded-full bg-white/15 text-white flex items-center justify-center text-sm">✕</button>
+            </div>
+            <div class="p-4 space-y-3 text-xs">
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3 flex items-center justify-between gap-2">
+                    <div class="min-w-0">
+                        <p class="text-[10px] font-bold uppercase text-slate-400">Resident Profile</p>
+                        <p id="settingsProfileSummary" class="font-extrabold text-slate-900 truncate">Jeewan City Resident</p>
+                    </div>
+                    <button type="button" onclick="closeModal('settingsModal'); openGuestProfileModal()" class="px-3 py-1.5 rounded-xl bg-[#008f39] text-white font-bold text-[11px] shrink-0">
+                        Edit
+                    </button>
+                </div>
+
+                <label class="flex items-center justify-between bg-white border border-slate-200 rounded-2xl p-3 cursor-pointer">
+                    <div>
+                        <p class="font-bold text-slate-900">Power Outage Sound Alerts</p>
+                        <p class="text-[10px] text-slate-500">Show instant toast banners for new alerts</p>
+                    </div>
+                    <input type="checkbox" id="settingAlertNotifs" onchange="saveAppSettings()" checked class="w-4 h-4 accent-[#008f39] rounded">
+                </label>
+
+                <label class="flex items-center justify-between bg-white border border-slate-200 rounded-2xl p-3 cursor-pointer">
+                    <div>
+                        <p class="font-bold text-slate-900">Auto-Compress Media</p>
+                        <p class="text-[10px] text-slate-500">Save mobile data when uploading photos &amp; videos</p>
+                    </div>
+                    <input type="checkbox" id="settingAutoCompress" onchange="saveAppSettings()" checked class="w-4 h-4 accent-[#008f39] rounded">
+                </label>
+
+                <div class="grid grid-cols-2 gap-2 pt-1">
+                    <button type="button" onclick="closeModal('settingsModal'); switchTab('admin')" class="py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs transition">
+                        🔐 Admin Lock
+                    </button>
+                    <button type="button" onclick="closeModal('settingsModal'); handleLogout()" class="py-2.5 rounded-xl bg-red-50 hover:bg-red-100 text-red-700 font-bold text-xs border border-red-200 transition">
+                        Sign Out
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP SHELL -->
+    <div class="max-w-md mx-auto min-h-screen bg-slate-50 flex flex-col pb-24 shadow-xl relative">
+
+        <!-- YOUTUBE/WHATSAPP STYLE OFFLINE / ONLINE CONNECTION SLIDER BANNER -->
+        <div id="connectionStatusBar" class="hidden fixed top-0 left-0 right-0 max-w-md mx-auto z-[80] px-4 pt-3 pointer-events-none transition-all duration-300">
+            <div id="connectionStatusInner" class="pointer-events-auto bg-slate-900 text-white rounded-2xl p-3 shadow-2xl border border-slate-700 flex items-center justify-between gap-3 text-xs">
+                <div class="flex items-center gap-2.5 min-w-0">
+                    <span id="connectionStatusIcon" class="text-base shrink-0">📴</span>
+                    <div class="min-w-0">
+                        <p id="connectionStatusTitle" class="font-extrabold truncate">No internet connection</p>
+                        <p id="connectionStatusDesc" class="text-[10px] text-slate-400 truncate">Viewing cached feed • Tap Retry</p>
+                    </div>
+                </div>
+                <button type="button" id="connectionRetryBtn" onclick="retryConnection()" class="px-3 py-1.5 rounded-xl bg-[#008f39] hover:bg-emerald-800 text-white font-extrabold text-[11px] shrink-0 transition">
+                    Retry
+                </button>
+            </div>
+        </div>
+
+        <!-- STICKY TOP HEADER WITH OFFICIAL JEEWAN CITY LOGO & THREE-DOTS MENU -->
+        <header class="bg-white border-b border-slate-200 sticky top-0 z-40 px-3.5 py-2 shadow-2xs flex items-center justify-between">
+            <div class="flex items-center gap-2 min-w-0">
+                <!-- Official Jeewan City SVG Logo -->
+                <svg class="h-10 w-auto shrink-0" viewBox="0 0 360 135" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Jeewan City Logo">
+                    <polygon points="103,40 124,20 132,20 111,40" fill="#008f39"/>
+                    <polygon points="124,20 138,40 112,40" fill="#008f39"/>
+                    <polygon points="131,26 151,6 160,6 140,26" fill="#008f39"/>
+                    <polygon points="151,6 184,6 202,40 164,40" fill="#008f39"/>
+                    <text x="180" y="88" text-anchor="middle" fill="#1b1a68" font-family="Georgia, 'Times New Roman', serif" font-weight="bold">
+                        <tspan font-size="60">J</tspan><tspan font-size="44">EEWAN </tspan><tspan font-size="60">C</tspan><tspan font-size="44">ITY</tspan>
+                    </text>
+                    <path d="M 60 107 C 130 92, 165 95, 198 112 C 228 126, 265 103, 305 107 C 265 110, 228 134, 196 119 C 162 103, 128 99, 60 107 Z" fill="#008f39"/>
+                </svg>
+                <div class="border-l border-slate-200 pl-2 min-w-0">
+                    <span class="block text-[10px] font-extrabold text-[#1b1a68] uppercase tracking-wider leading-none">Sahiwal</span>
+                    <div class="flex items-center gap-1 mt-1">
+                        <span id="liveStatusDot" class="w-1.5 h-1.5 rounded-full bg-[#008f39] inline-block shrink-0 animate-pulse"></span>
+                        <p id="liveStatusText" class="text-[10px] text-slate-500 font-semibold truncate">Live Feed</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-1.5 shrink-0 relative">
+                <button type="button" onclick="openModal('qrModal')" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-[#1b1a68] flex items-center justify-center text-base transition" title="Shopkeeper QR Standee">
+                    <span>🔲</span>
+                </button>
+                <button type="button" onclick="toggleHeaderMenu(event)" id="headerMenuBtn" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-[#1b1a68] flex items-center justify-center text-lg font-extrabold transition" title="More Options">
+                    <span>⋮</span>
+                </button>
+
+                <!-- TOP RIGHT THREE DOTS DROPDOWN MENU -->
+                <div id="headerDropdownMenu" class="hidden absolute right-0 top-11 w-52 bg-white text-slate-800 rounded-2xl shadow-2xl border border-slate-200 py-1.5 z-50 text-xs overflow-hidden">
+                    <button type="button" onclick="closeHeaderMenu(); switchTab('about')" class="w-full px-3.5 py-2.5 text-left hover:bg-slate-50 flex items-center gap-2.5 font-bold text-slate-700 transition">
+                        <span class="text-sm">ℹ️</span>
+                        <span>About This App</span>
+                    </button>
+                    <button type="button" onclick="closeHeaderMenu(); openSettingsModal()" class="w-full px-3.5 py-2.5 text-left hover:bg-slate-50 flex items-center gap-2.5 font-bold text-slate-700 transition">
+                        <span class="text-sm">⚙️</span>
+                        <span>App Settings</span>
+                    </button>
+                    <button type="button" onclick="closeHeaderMenu(); copyAppLink()" class="w-full px-3.5 py-2.5 text-left hover:bg-slate-50 flex items-center gap-2.5 font-bold text-slate-700 transition">
+                        <span class="text-sm">📤</span>
+                        <span>Share Colony App</span>
+                    </button>
+                    <div class="my-1 border-t border-slate-100"></div>
+                    <button type="button" onclick="closeHeaderMenu(); switchTab('admin')" class="w-full px-3.5 py-2.5 text-left hover:bg-emerald-50 flex items-center gap-2.5 font-extrabold text-[#1b1a68] transition">
+                        <span class="text-sm">🔐</span>
+                        <span>Admin Lock / Portal</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- BODY CONTAINER FOR TABS -->
+        <main class="flex-1 p-3.5 space-y-4 overflow-y-auto">
+
+            <!-- TAB 1: HOME (CLEAN COMMUNITY FEED + PINNED POWER ALERT BANNER) -->
+            <section id="tab-home" class="space-y-3.5">
+                <!-- Pinned Electricity Alert Banner -->
+                <div id="homeAlertContainer"></div>
+
+                <!-- Quick Outage Tip Action Bar -->
+                <div class="flex items-center justify-between gap-2 bg-white border border-slate-200 rounded-2xl px-3.5 py-2.5 shadow-2xs">
+                    <div class="flex items-center gap-2 min-w-0">
+                        <span class="text-base">⚡</span>
+                        <p class="text-[11px] font-bold text-slate-700 truncate">Street light off? Alert your phase</p>
+                    </div>
+                    <button type="button" onclick="openModal('tipModal')" class="px-2.5 py-1.5 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 font-extrabold text-[11px] shrink-0 transition">
+                        + Report Outage
+                    </button>
+                </div>
+
+                <!-- Community Feed Filter Tabs & Post List -->
+                <div class="space-y-2.5">
+                    <div class="flex items-center justify-between gap-2">
+                        <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Colony Updates &amp; Feed</h3>
+                        <span id="feedPostCount" class="text-[10px] font-bold text-slate-600 bg-slate-200 px-2 py-0.5 rounded-full">0 Posts</span>
+                    </div>
+                    <div id="feedFilterContainer" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1"></div>
+                    <div id="communityFeedContainer" class="space-y-3"></div>
+                </div>
+            </section>
+
+            <!-- TAB 2: BAZAAR (SHOPS, OFFERS, SEARCH & CATEGORIES) -->
+            <section id="tab-bazaar" class="hidden space-y-4">
+                <div class="bg-gradient-to-r from-[#1b1a68] to-emerald-900 text-white rounded-2xl p-4 shadow-sm space-y-2">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-sm font-extrabold tracking-wide jeewan-serif">Jeewan City Local Bazaar</h2>
+                        <span class="text-[10px] font-extrabold bg-amber-400 text-slate-950 px-2 py-0.5 rounded-full">Sahiwal</span>
+                    </div>
+                    <p class="text-xs text-slate-200">Groceries, bakery, pharmacy &amp; daily deals from trusted local shops in your colony.</p>
+                    <div class="relative pt-1">
+                        <input type="text" id="bazaarSearchInput" oninput="handleSearch(this.value)" placeholder="Search shops, items or discounts..."
+                            class="w-full pl-9 pr-3.5 py-2.5 rounded-xl bg-white text-slate-900 text-xs font-medium placeholder-slate-400 focus:outline-none shadow-sm">
+                        <span class="absolute left-3 top-4.5 text-sm">🔍</span>
+                    </div>
+                </div>
+
+                <!-- Category Chips -->
+                <div id="categoryFilterContainer" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-1"></div>
+
+                <!-- Featured Shops -->
+                <div class="space-y-2.5">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-500">⭐ Featured Colony Shops</h3>
+                    </div>
+                    <div id="featuredShopsContainer" class="space-y-3"></div>
+                </div>
+
+                <!-- Regular Shops -->
+                <div class="space-y-2.5 pt-2">
+                    <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-500">🛒 All Colony Shops &amp; Offers</h3>
+                    <div id="regularShopsContainer" class="space-y-3"></div>
+                </div>
+            </section>
+
+            <!-- TAB 3: CONTACTS (EMERGENCY & COLONY DIRECTORY) -->
+            <section id="tab-directory" class="hidden space-y-4">
+                <div class="bg-gradient-to-r from-[#1b1a68] to-emerald-900 text-white rounded-2xl p-4 shadow-sm space-y-1">
+                    <h2 class="text-sm font-extrabold jeewan-serif">Emergency &amp; Colony Contacts</h2>
+                    <p class="text-xs text-slate-200">Direct phone numbers for security gate, electricians, plumbers &amp; Sahiwal services.</p>
+                </div>
+                <div id="directoryListContainer" class="space-y-2.5"></div>
+            </section>
+
+            <!-- TAB 4: YOUTUBE-STYLE PROFILE / ACCOUNT TAB -->
+            <section id="tab-profile" class="hidden space-y-4">
+                <!-- Profile Header Card (YouTube "You" Tab Style) -->
+                <div class="bg-white rounded-3xl border border-slate-200 p-4 shadow-xs space-y-4">
+                    <div class="flex items-center gap-3.5">
+                        <div id="profileAvatarCircle" class="w-16 h-16 rounded-full bg-gradient-to-br from-[#1b1a68] to-[#008f39] text-white font-extrabold text-2xl flex items-center justify-center shrink-0 shadow-md overflow-hidden">
+                            J
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <h2 id="profileDisplayName" class="text-base font-extrabold text-slate-900 truncate">Jeewan City Resident</h2>
+                            <p id="profileDisplayBlock" class="text-xs text-slate-500 font-medium truncate">Jeewan City Sahiwal</p>
+                            <div class="flex items-center gap-1.5 mt-1.5">
+                                <span id="profileAuthBadge" class="text-[10px] font-extrabold bg-emerald-100 text-[#008f39] px-2.5 py-0.5 rounded-full">Guest Resident</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Action Chips (Horizontal Scrollable like YouTube Profile) -->
+                    <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pt-1">
+                        <button type="button" onclick="openGuestProfileModal()" class="px-3.5 py-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs flex items-center gap-1.5 shrink-0 transition">
+                            <span>✏️</span>
+                            <span>Edit Name &amp; Phase</span>
+                        </button>
+                        <button type="button" onclick="handleLogout()" id="profileSwitchAccountBtn" class="px-3.5 py-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs flex items-center gap-1.5 shrink-0 transition">
+                            <span>🔄</span>
+                            <span>Switch Account</span>
+                        </button>
+                        <button type="button" onclick="openModal('qrModal')" class="px-3.5 py-2 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs flex items-center gap-1.5 shrink-0 transition">
+                            <span>🔲</span>
+                            <span>Colony QR</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Resident Stats Row -->
+                <div class="grid grid-cols-2 gap-2.5">
+                    <div class="bg-white rounded-2xl border border-slate-200 p-3.5 shadow-2xs">
+                        <p class="text-[10px] font-bold uppercase text-slate-400">Your Posts</p>
+                        <p id="profileMyPostCount" class="text-xl font-extrabold text-[#1b1a68] mt-0.5">0</p>
+                    </div>
+                    <div class="bg-white rounded-2xl border border-slate-200 p-3.5 shadow-2xs">
+                        <p class="text-[10px] font-bold uppercase text-slate-400">Colony Shops</p>
+                        <p id="profileShopCount" class="text-xl font-extrabold text-[#008f39] mt-0.5">3</p>
+                    </div>
+                </div>
+
+                <!-- Power Outage Schedule & Street Reports Section inside Profile -->
+                <div class="bg-white rounded-2xl border border-slate-200 p-4 space-y-3 shadow-2xs">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-xs font-extrabold text-slate-900">Power Outage &amp; Street Tips</h3>
+                            <p class="text-[11px] text-slate-500">View live outage reports or submit a street tip</p>
+                        </div>
+                        <button type="button" onclick="openModal('tipModal')" class="px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-[11px] shrink-0 transition">
+                            + Report Outage
+                        </button>
+                    </div>
+                    <div id="publicReportsContainer" class="space-y-2"></div>
+                </div>
+
+                <!-- Your Recent Activity / Posts -->
+                <div class="space-y-2.5">
+                    <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-500">Your Recent Posts</h3>
+                    <div id="profileMyPostsContainer" class="space-y-2.5"></div>
+                </div>
+
+                <!-- Account Management Menu List (YouTube Style) -->
+                <div class="bg-white rounded-2xl border border-slate-200 divide-y divide-slate-100 overflow-hidden shadow-2xs text-xs">
+                    <button type="button" onclick="openSettingsModal()" class="w-full px-4 py-3.5 text-left hover:bg-slate-50 flex items-center justify-between font-bold text-slate-800 transition">
+                        <span class="flex items-center gap-2.5"><span>⚙️</span><span>App Settings &amp; Notifications</span></span>
+                        <span class="text-slate-400">›</span>
+                    </button>
+                    <button type="button" onclick="switchTab('about')" class="w-full px-4 py-3.5 text-left hover:bg-slate-50 flex items-center justify-between font-bold text-slate-800 transition">
+                        <span class="flex items-center gap-2.5"><span>ℹ️</span><span>About Jeewan City Sahiwal App</span></span>
+                        <span class="text-slate-400">›</span>
+                    </button>
+                    <button type="button" onclick="switchTab('admin')" class="w-full px-4 py-3.5 text-left hover:bg-slate-50 flex items-center justify-between font-bold text-[#1b1a68] transition">
+                        <span class="flex items-center gap-2.5"><span>🔐</span><span>Admin Panel</span></span>
+                        <span class="text-slate-400">›</span>
+                    </button>
+                    <button type="button" onclick="handleLogout()" class="w-full px-4 py-3.5 text-left hover:bg-red-50 flex items-center justify-between font-bold text-red-600 transition">
+                        <span class="flex items-center gap-2.5"><span>🚪</span><span>Sign Out / Login</span></span>
+                        <span class="text-red-300">›</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- TAB 5: ADMIN DASHBOARD (Accessed via Top-Right Three Dots or Profile Menu) -->
+            <section id="tab-admin" class="hidden space-y-4">
+                <!-- Admin Lock Screen (Password: 12254321 - NO password hint displayed) -->
+                <div id="adminLockScreen" class="bg-white rounded-2xl border border-slate-200 p-6 text-center space-y-4 shadow-sm">
+                    <div class="w-12 h-12 bg-indigo-50 text-[#1b1a68] rounded-2xl mx-auto flex items-center justify-center text-xl font-extrabold">🔒</div>
+                    <div class="space-y-1">
+                        <h2 class="text-sm font-extrabold text-slate-900">Jeewan City Admin Portal</h2>
+                        <p class="text-xs text-slate-500">Enter Admin Password to broadcast power alerts, manage shops, and update directory contacts.</p>
+                    </div>
+                    <form onsubmit="unlockAdmin(event)" class="space-y-3 max-w-xs mx-auto">
+                        <input type="password" id="adminPinInput" required placeholder="Enter Admin Password" maxlength="12"
+                            class="w-full text-center tracking-widest px-4 py-3 rounded-xl border border-slate-300 font-bold text-base focus:border-[#008f39] focus:outline-none">
+                        <p id="pinErrorMsg" class="hidden text-xs text-red-600 font-semibold">Incorrect Password!</p>
+                        <button type="submit" class="w-full py-3 rounded-xl bg-[#1b1a68] hover:opacity-95 text-white font-bold text-xs shadow-md transition">
+                            Unlock Admin Panel
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Admin Unlocked Dashboard -->
+                <div id="adminDashboard" class="hidden space-y-4">
+                    <div class="bg-[#1b1a68] text-white rounded-2xl p-4 flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-300">Admin Mode Active</span>
+                            <h3 class="text-sm font-extrabold">Jeewan City Management</h3>
+                        </div>
+                        <button type="button" onclick="lockAdmin()" class="px-3 py-1.5 rounded-xl bg-white/15 hover:bg-white/25 text-xs font-bold transition">
+                            Lock Admin
+                        </button>
+                    </div>
+
+                    <!-- 1. Broadcast Electricity Outage Alert -->
+                    <div class="bg-white rounded-2xl border border-slate-200 p-4 space-y-3 shadow-xs">
+                        <div class="flex items-center justify-between">
+                            <h4 class="text-xs font-extrabold text-slate-900">⚡ Broadcast Power Outage Alert</h4>
+                            <button type="button" onclick="clearElectricityAlert()" class="text-[11px] font-bold text-emerald-700 hover:underline">
+                                Set Status Normal
+                            </button>
+                        </div>
+                        <form onsubmit="publishElectricityAlert(event)" class="space-y-2.5 text-xs">
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block font-semibold text-slate-700 mb-1">Day / Date</label>
+                                    <input type="text" id="adminDate" value="Tomorrow" required class="w-full px-3 py-2 rounded-xl border border-slate-300">
+                                </div>
+                                <div>
+                                    <label class="block font-semibold text-slate-700 mb-1">Total Duration</label>
+                                    <input type="text" id="adminDuration" value="5 Hours" required class="w-full px-3 py-2 rounded-xl border border-slate-300">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block font-semibold text-slate-700 mb-1">Start Time</label>
+                                    <input type="text" id="adminStartTime" value="9:00 AM" required class="w-full px-3 py-2 rounded-xl border border-slate-300">
+                                </div>
+                                <div>
+                                    <label class="block font-semibold text-slate-700 mb-1">End Time</label>
+                                    <input type="text" id="adminEndTime" value="2:00 PM" required class="w-full px-3 py-2 rounded-xl border border-slate-300">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-700 mb-1">Affected Phases</label>
+                                <input type="text" id="adminBlocks" value="All Phases (1, 2, 3)" required class="w-full px-3 py-2 rounded-xl border border-slate-300">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-700 mb-1">Reason</label>
+                                <input type="text" id="adminReason" value="Main Feeder Maintenance & Tree Trimming" required class="w-full px-3 py-2 rounded-xl border border-slate-300">
+                            </div>
+                            <button type="submit" id="publishAlertBtn" class="w-full py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-sm transition">
+                                Broadcast Power Alert to Colony
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- 2. Add & Manage Bazaar Shops -->
+                    <div class="bg-white rounded-2xl border border-slate-200 p-4 space-y-3 shadow-xs">
+                        <h4 class="text-xs font-extrabold text-slate-900">🛒 Add Shop to Jeewan City Bazaar</h4>
+                        <form onsubmit="addNewShop(event)" class="space-y-2.5 text-xs">
+                            <input type="text" id="shopNameInput" required placeholder="Shop Name (e.g., Sahiwal Bakers)" class="w-full px-3 py-2 rounded-xl border border-slate-300">
+                            <div class="grid grid-cols-2 gap-2">
+                                <select id="shopCategoryInput" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white">
+                                    <option value="Grocery">Grocery</option>
+                                    <option value="Bakery & Sweets">Bakery &amp; Sweets</option>
+                                    <option value="Pharmacy">Pharmacy</option>
+                                    <option value="Meat & Veg">Meat &amp; Veg</option>
+                                    <option value="Services">Services</option>
+                                </select>
+                                <input type="text" id="shopBlockInput" required placeholder="Location (e.g., Main Market)" class="w-full px-3 py-2 rounded-xl border border-slate-300">
+                            </div>
+                            <input type="text" id="shopOfferInput" required placeholder="Special Offer / Discount details..." class="w-full px-3 py-2 rounded-xl border border-slate-300">
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="tel" id="shopPhoneInput" required placeholder="WhatsApp (03001234567)" class="w-full px-3 py-2 rounded-xl border border-slate-300">
+                                <input type="text" id="shopTimeInput" value="8 AM - 11 PM" required class="w-full px-3 py-2 rounded-xl border border-slate-300">
+                            </div>
+                            <label class="flex items-center gap-2 font-bold text-amber-800 bg-amber-50 p-2.5 rounded-xl border border-amber-200 cursor-pointer">
+                                <input type="checkbox" id="shopFeaturedInput" class="w-4 h-4 accent-amber-600 rounded">
+                                <span>⭐ Mark as Featured VIP Shop (Top Banner)</span>
+                            </label>
+                            <button type="submit" id="addShopBtn" class="w-full py-2.5 rounded-xl bg-[#008f39] hover:bg-emerald-800 text-white font-bold text-xs shadow-sm transition">
+                                + Add Shop to Bazaar
+                            </button>
+                        </form>
+                        <div id="adminShopsList" class="space-y-2 pt-2 border-t border-slate-100"></div>
+                    </div>
+
+                    <!-- 3. Manage Emergency & Colony Contacts -->
+                    <div class="bg-white rounded-2xl border border-slate-200 p-4 space-y-3 shadow-xs">
+                        <h4 class="text-xs font-extrabold text-slate-900">📞 Edit Emergency &amp; Colony Contacts</h4>
+                        <form onsubmit="addNewDirectoryContact(event)" class="space-y-2.5 text-xs">
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="text" id="dirTitle" required placeholder="Name / Title" class="w-full px-3 py-2 rounded-xl border border-slate-300">
+                                <input type="tel" id="dirPhone" required placeholder="Phone Number" class="w-full px-3 py-2 rounded-xl border border-slate-300">
+                            </div>
+                            <div class="grid grid-cols-3 gap-2">
+                                <input type="text" id="dirRole" required placeholder="Role (e.g., Electrician)" class="col-span-2 w-full px-3 py-2 rounded-xl border border-slate-300">
+                                <select id="dirIcon" class="w-full px-2 py-2 rounded-xl border border-slate-300 bg-white">
+                                    <option value="🛡️">🛡️ Guard</option>
+                                    <option value="⚡">⚡ Electric</option>
+                                    <option value="🔧">🔧 Plumber</option>
+                                    <option value="🚑">🚑 Rescue</option>
+                                    <option value="📞">📞 Office</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="w-full py-2.5 rounded-xl bg-[#1b1a68] hover:opacity-95 text-white font-bold text-xs transition">
+                                + Save Contact Number
+                            </button>
+                        </form>
+                        <div id="adminDirectoryList" class="space-y-2 pt-2 border-t border-slate-100"></div>
+                    </div>
+
+                    <!-- 4. Resident Outage Reports -->
+                    <div class="bg-white rounded-2xl border border-slate-200 p-4 space-y-2.5 shadow-xs">
+                        <h4 class="text-xs font-extrabold text-slate-900">⚠️ Resident Street Outage Reports</h4>
+                        <div id="adminReportsList" class="space-y-2"></div>
+                    </div>
+
+                    <!-- 5. Moderate Community Posts -->
+                    <div class="bg-white rounded-2xl border border-slate-200 p-4 space-y-2.5 shadow-xs">
+                        <h4 class="text-xs font-extrabold text-slate-900">💬 Moderate Community Feed Posts</h4>
+                        <div id="adminPostsList" class="space-y-2"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 6: FULL-PAGE CREATE COMMUNITY POST -->
+            <section id="tab-create" class="hidden space-y-4">
+                <div class="bg-gradient-to-r from-[#1b1a68] to-emerald-900 text-white rounded-2xl p-4 flex items-center justify-between shadow-sm">
+                    <div class="flex items-center gap-2.5">
+                        <button type="button" onclick="switchTab('home')" class="w-8 h-8 rounded-xl bg-white/15 hover:bg-white/25 text-white flex items-center justify-center text-sm font-bold" title="Back to Home">
+                            ←
+                        </button>
+                        <div>
+                            <h2 class="font-extrabold text-sm">Create Community Post</h2>
+                            <p id="composerAuthorSubtitle" class="text-[10px] text-emerald-200">Posting as Jeewan City Resident</p>
+                        </div>
+                    </div>
+                    <span class="text-[10px] font-bold bg-white/15 px-2.5 py-1 rounded-full">Sahiwal</span>
+                </div>
+
+                <form onsubmit="submitCommunityPost(event)" class="bg-white rounded-2xl border border-slate-200 p-4 space-y-4 text-xs shadow-2xs">
+                    <!-- Category Selector Pills (Guest restricted to General Chat) -->
+                    <div>
+                        <div class="flex items-center justify-between mb-1.5">
+                            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider">Select Post Category</label>
+                            <span id="guestCategoryHint" class="hidden text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full">Guest: General Chat Only</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
+                            <button type="button" onclick="selectComposerTag('General Chat')" data-tag="General Chat"
+                                class="composer-tag-btn py-1.5 px-3 rounded-xl text-[11px] font-bold bg-[#008f39] text-white border border-[#008f39] shrink-0 transition">
+                                💬 General Chat
+                            </button>
+                            <button type="button" onclick="selectComposerTag('Alert')" data-tag="Alert"
+                                class="composer-tag-btn py-1.5 px-3 rounded-xl text-[11px] font-bold bg-slate-50 text-slate-600 border border-slate-200 shrink-0 transition">
+                                ⚡ Alert
+                            </button>
+                            <button type="button" onclick="selectComposerTag('Issue / Masla')" data-tag="Issue / Masla"
+                                class="composer-tag-btn py-1.5 px-3 rounded-xl text-[11px] font-bold bg-slate-50 text-slate-600 border border-slate-200 shrink-0 transition">
+                                ⚠️ Issue / Masla
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Message Textarea -->
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Message</label>
+                        <textarea id="postMessageInput" rows="6" placeholder="Write a message for Jeewan City neighbors or report a street issue..."
+                            class="w-full px-3.5 py-3 rounded-2xl border border-slate-300 text-xs focus:border-[#008f39] focus:outline-none resize-none"></textarea>
+                    </div>
+
+                    <!-- Attachment Preview Box -->
+                    <div id="composerAttachmentPreview" class="hidden bg-slate-50 border border-slate-200 rounded-xl p-2.5 flex items-center justify-between gap-2">
+                        <div id="attachmentPreviewContent" class="flex items-center gap-2.5 min-w-0 text-xs"></div>
+                        <button type="button" onclick="clearComposerAttachment()" class="w-7 h-7 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 flex items-center justify-center text-xs font-bold shrink-0">
+                            ✕
+                        </button>
+                    </div>
+
+                    <!-- Media Attachment Buttons -->
+                    <div class="space-y-2 pt-2 border-t border-slate-100">
+                        <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider">Attach Media / File</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <label class="py-2.5 px-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center gap-1.5 text-[11px] font-bold cursor-pointer transition">
+                                <span>📷</span><span>Photo</span>
+                                <input type="file" id="photoFileInput" accept="image/*" onchange="handleMediaSelect(event, 'image')" class="hidden">
+                            </label>
+                            <label class="py-2.5 px-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center gap-1.5 text-[11px] font-bold cursor-pointer transition">
+                                <span>🎥</span><span>Video</span>
+                                <input type="file" id="videoFileInput" accept="video/*" onchange="handleMediaSelect(event, 'video')" class="hidden">
+                            </label>
+                            <label class="py-2.5 px-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center gap-1.5 text-[11px] font-bold cursor-pointer transition">
+                                <span>📄</span><span>File</span>
+                                <input type="file" id="docFileInput" accept=".pdf,.doc,.docx,.txt,.xls,.xlsx" onchange="handleMediaSelect(event, 'document')" class="hidden">
+                            </label>
+                        </div>
+                    </div>
+
+                    <p id="postComposerStatusMsg" class="hidden text-red-600 font-bold text-[11px]"></p>
+
+                    <div class="grid grid-cols-2 gap-2.5 pt-2">
+                        <button type="button" onclick="switchTab('home')" class="py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
+                            Cancel
+                        </button>
+                        <button type="submit" id="sendPostBtn" class="py-3 rounded-xl bg-[#008f39] hover:bg-emerald-800 text-white font-extrabold text-xs shadow-md transition flex items-center justify-center gap-1.5">
+                            <span>Publish Post</span>
+                            <span>➤</span>
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- TAB 7: FULL-PAGE ABOUT THIS APP -->
+            <section id="tab-about" class="hidden space-y-4">
+                <div class="bg-gradient-to-r from-[#1b1a68] to-emerald-900 text-white rounded-2xl p-4 flex items-center gap-2.5 shadow-sm">
+                    <button type="button" onclick="switchTab('home')" class="w-8 h-8 rounded-xl bg-white/15 hover:bg-white/25 text-white flex items-center justify-center text-sm font-bold" title="Back to Home">
+                        ←
+                    </button>
+                    <div>
+                        <h2 class="font-extrabold text-sm">About This App</h2>
+                        <p class="text-[10px] text-emerald-200">Jeewan City Sahiwal Official Colony App</p>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl border border-slate-200 p-5 space-y-4 text-xs text-slate-700 shadow-2xs">
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-center space-y-1.5">
+                        <div class="flex justify-center">
+                            <svg class="h-14 w-auto" viewBox="0 0 360 135" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <polygon points="103,40 124,20 132,20 111,40" fill="#008f39"/>
+                                <polygon points="124,20 138,40 112,40" fill="#008f39"/>
+                                <polygon points="131,26 151,6 160,6 140,26" fill="#008f39"/>
+                                <polygon points="151,6 184,6 202,40 164,40" fill="#008f39"/>
+                                <text x="180" y="88" text-anchor="middle" fill="#1b1a68" font-family="Georgia, 'Times New Roman', serif" font-weight="bold">
+                                    <tspan font-size="60">J</tspan><tspan font-size="44">EEWAN </tspan><tspan font-size="60">C</tspan><tspan font-size="44">ITY</tspan>
+                                </text>
+                                <path d="M 60 107 C 130 92, 165 95, 198 112 C 228 126, 265 103, 305 107 C 265 110, 228 134, 196 119 C 162 103, 128 99, 60 107 Z" fill="#008f39"/>
+                            </svg>
+                        </div>
+                        <p class="text-xs font-bold text-[#008f39]">Sahiwal Community Alerts &amp; Local Bazaar</p>
+                        <span class="inline-block text-[10px] font-bold bg-emerald-100 text-emerald-900 px-3 py-0.5 rounded-full">Version 2.2 • Sahiwal</span>
+                    </div>
+
+                    <p class="leading-relaxed">
+                        Built exclusively for the residents and shopkeepers of <strong>Jeewan City Sahiwal</strong>. Get advance electricity shutdown alerts, share colony updates using the center <strong>+</strong> button, order from trusted local shops, and access emergency contacts in one tap.
+                    </p>
+
+                    <!-- DEVELOPER & CONTACTS CARD (UPDATED NUMBERS) -->
+                    <div class="bg-gradient-to-br from-indigo-50 to-emerald-50 border border-indigo-200 rounded-2xl p-4 space-y-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-base">👨‍💻</span>
+                            <div>
+                                <p class="font-extrabold text-[#1b1a68]">Developed by Abdullah Mirza</p>
+                                <p class="text-[10px] text-slate-500">Jeewan City Sahiwal Lead Developer &amp; Admin</p>
+                            </div>
+                        </div>
+                        <div class="space-y-2 pt-1">
+                            <div class="grid grid-cols-2 gap-2">
+                                <a href="tel:+923016929697" class="py-2 px-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-800 font-bold text-xs text-center shadow-2xs transition flex items-center justify-center gap-1.5">
+                                    <span>📞</span> 0301-6929697
+                                </a>
+                                <a href="https://wa.me/923016929697?text=Assalam-o-Alaikum%20Abdullah%20Mirza,%20regarding%20Jeewan%20City%20App" target="_blank" rel="noopener noreferrer" class="py-2 px-3 rounded-xl bg-[#008f39] hover:bg-emerald-800 text-white font-bold text-xs text-center shadow-2xs transition flex items-center justify-center gap-1.5">
+                                    <span>💬</span> WhatsApp 1
+                                </a>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <a href="tel:+9230103029815152" class="py-2 px-3 rounded-xl bg-white hover:bg-slate-50 border border-slate-200 text-slate-800 font-bold text-xs text-center shadow-2xs transition flex items-center justify-center gap-1.5">
+                                    <span>📞</span> 030103029815152
+                                </a>
+                                <a href="https://wa.me/9230103029815152?text=Assalam-o-Alaikum%20Abdullah%20Mirza,%20regarding%20Jeewan%20City%20App" target="_blank" rel="noopener noreferrer" class="py-2 px-3 rounded-xl bg-[#008f39] hover:bg-emerald-800 text-white font-bold text-xs text-center shadow-2xs transition flex items-center justify-center gap-1.5">
+                                    <span>💬</span> WhatsApp 2
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3.5 space-y-2 text-[11px]">
+                        <p><span class="font-bold text-slate-900">⚡ Advance Alerts:</span> MEPCO / Colony feeder shutdown updates</p>
+                        <p><span class="font-bold text-slate-900">➕ Live Feed:</span> Share photos, videos with sound &amp; files</p>
+                        <p><span class="font-bold text-slate-900">🛒 Local Bazaar:</span> Direct WhatsApp &amp; call ordering</p>
+                        <p><span class="font-bold text-slate-900">🔔 Native Notifications:</span> Real phone &amp; desktop post alerts</p>
+                    </div>
+
+                    <div class="pt-1">
+                        <button type="button" onclick="openPermissionsPrompt(true)" class="w-full py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs transition mb-2">
+                            🔔 Manage Notification &amp; File Permissions
+                        </button>
+                        <button type="button" onclick="switchTab('home')" class="w-full py-3 rounded-xl bg-[#008f39] hover:bg-emerald-800 text-white font-extrabold text-xs transition">
+                            Back to Home
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- YOUTUBE-STYLE 5-SLOT BOTTOM NAVIGATION BAR: Home | Bazaar | (+) Create Post | Contacts | Profile -->
+        <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/95 backdrop-blur-md border-t border-slate-200 px-2 py-1.5 flex items-center justify-between z-40 shadow-[0_-4px_16px_rgba(0,0,0,0.06)]">
+            <!-- Slot 1: Home -->
+            <button type="button" onclick="switchTab('home')" id="nav-home"
+                class="nav-btn flex-1 flex flex-col items-center justify-center py-1 rounded-xl text-[#008f39] font-extrabold transition">
+                <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 10.5L12 3l9 7.5V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1v-9.5z"/>
+                </svg>
+                <span class="text-[10px]">Home</span>
+            </button>
+
+            <!-- Slot 2: Bazaar -->
+            <button type="button" onclick="switchTab('bazaar')" id="nav-bazaar"
+                class="nav-btn flex-1 flex flex-col items-center justify-center py-1 rounded-xl text-slate-500 font-medium hover:text-slate-800 transition">
+                <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18l-1.5 13h-15L3 7zm4 0V5a5 5 0 0110 0v2"/>
+                </svg>
+                <span class="text-[10px]">Bazaar</span>
+            </button>
+
+            <!-- Slot 3 (Center): Prominent '+' Create Post Button -->
+            <div class="flex-1 flex items-center justify-center">
+                <button type="button" onclick="openCreatePostModal()" aria-label="Create New Post"
+                    class="w-12 h-12 -mt-3 rounded-full bg-gradient-to-tr from-[#1b1a68] to-[#008f39] text-white shadow-lg shadow-emerald-900/25 border-2 border-white flex items-center justify-center active:scale-95 transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.6" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 5v14M5 12h14"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Slot 4: Contacts -->
+            <button type="button" onclick="switchTab('directory')" id="nav-directory"
+                class="nav-btn flex-1 flex flex-col items-center justify-center py-1 rounded-xl text-slate-500 font-medium hover:text-slate-800 transition">
+                <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                </svg>
+                <span class="text-[10px]">Contacts</span>
+            </button>
+
+            <!-- Slot 5: Profile (YouTube-Style Account Tab) -->
+            <button type="button" onclick="switchTab('profile')" id="nav-profile"
+                class="nav-btn flex-1 flex flex-col items-center justify-center py-1 rounded-xl text-slate-500 font-medium hover:text-slate-800 transition">
+                <svg class="w-5 h-5 mb-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+                <span class="text-[10px]">Profile</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Application Logic with Firebase Modular SDK v11.6.1 -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
+        import {
+            getAuth,
+            signInWithEmailAndPassword,
+            createUserWithEmailAndPassword,
+            signInWithRedirect,
+            getRedirectResult,
+            GoogleAuthProvider,
+            FacebookAuthProvider,
+            signInAnonymously,
+            updateProfile,
+            signOut,
+            onAuthStateChanged
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import {
+            getFirestore,
+            collection,
+            doc,
+            setDoc,
+            addDoc,
+            updateDoc,
+            deleteDoc,
+            onSnapshot,
+            query,
+            orderBy,
+            increment,
+            arrayUnion,
+            serverTimestamp,
+            getDoc
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD7S2ekPA2B6uMoqg621qaITRW9KqhTz1s",
+            authDomain: "jeewan-city.firebaseapp.com",
+            projectId: "jeewan-city",
+            storageBucket: "jeewan-city.firebasestorage.app",
+            messagingSenderId: "394435713585",
+            appId: "1:394435713585:web:0c355cbe92fa69887fd310",
+            measurementId: "G-DTJWCMHGBB"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const ADMIN_PIN = "12254321";
+
+        const appState = {
+            currentUser: null,
+            isGuestSession: false,
+            isOnlineConnected: navigator.onLine,
+            authProviderLabel: "Guest Resident",
+            currentUserProfile: { name: "Jeewan City Resident", block: "Phase 1, Sahiwal", avatarUrl: "" },
+            activeTab: "home",
+            selectedCategory: "All",
+            selectedFeedFilter: "All",
+            composerTag: "General Chat",
+            pendingAttachment: null,
+            isCompressingMedia: false,
+            searchQuery: "",
+            reminderSet: false,
+            adminUnlocked: false,
+            electricityAlert: null,
+            posts: [],
+            shops: [],
+            reports: [],
+            directory: [
+                { id: "dir-1", title: "Colony Main Gate Security", phone: "03016929697", role: "Security & Guard", icon: "🛡️", color: "bg-emerald-100 text-emerald-700" },
+                { id: "dir-2", title: "Emergency Electrician", phone: "030103029815152", role: "Power & Transformer", icon: "⚡", color: "bg-amber-100 text-amber-700" },
+                { id: "dir-3", title: "Colony Office & Admin", phone: "03016929697", role: "Management", icon: "📞", color: "bg-indigo-100 text-indigo-700" }
+            ]
+        };
+
+        const categories = ["All", "Grocery", "Bakery & Sweets", "Pharmacy", "Meat & Veg", "Services"];
+        const feedFilters = ["All", "Alerts", "Issues", "General"];
+
+        function formatBytes(bytes) {
+            if (!bytes || bytes <= 0) return "0 KB";
+            if (bytes < 1024) return `${bytes} B`;
+            if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+            return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+        }
+
+        function escapeHtml(str) {
+            if (str === null || str === undefined) return "";
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function formatRelativeTime(ts) {
+            if (!ts) return "Just now";
+            try {
+                const dateObj = typeof ts.toDate === "function" ? ts.toDate() : new Date(ts);
+                const diffSec = Math.max(1, Math.floor((Date.now() - dateObj.getTime()) / 1000));
+                if (diffSec < 60) return "Just now";
+                if (diffSec < 3600) return `${Math.floor(diffSec / 60)}m ago`;
+                if (diffSec < 86400) return `${Math.floor(diffSec / 3600)}h ago`;
+                return dateObj.toLocaleDateString("en-PK", { day: "numeric", month: "short" });
+            } catch (e) {
+                return "Recently";
+            }
+        }
+
+        window.switchAuthMode = function(mode) {
+            const loginForm = document.getElementById("loginForm");
+            const registerForm = document.getElementById("registerForm");
+            const tabLogin = document.getElementById("authTabLogin");
+            const tabRegister = document.getElementById("authTabRegister");
+            if (!loginForm || !registerForm) return;
+
+            if (mode === "register") {
+                loginForm.classList.add("hidden");
+                registerForm.classList.remove("hidden");
+                tabRegister.className = "py-1.5 rounded-lg bg-white text-slate-900 shadow-xs transition";
+                tabLogin.className = "py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition";
+            } else {
+                registerForm.classList.add("hidden");
+                loginForm.classList.remove("hidden");
+                tabLogin.className = "py-1.5 rounded-lg bg-white text-slate-900 shadow-xs transition";
+                tabRegister.className = "py-1.5 rounded-lg text-slate-500 hover:text-slate-900 transition";
+            }
+        };
+
+        function updateConnectionBadge(isOnline, labelText) {
+            appState.isOnlineConnected = Boolean(isOnline);
+            const dot = document.getElementById("liveStatusDot");
+            const text = document.getElementById("liveStatusText");
+            const statusBar = document.getElementById("connectionStatusBar");
+            const statusTitle = document.getElementById("connectionStatusTitle");
+            const statusDesc = document.getElementById("connectionStatusDesc");
+            const statusIcon = document.getElementById("connectionStatusIcon");
+            const retryBtn = document.getElementById("connectionRetryBtn");
+
+            if (!dot || !text) return;
+
+            if (isOnline) {
+                dot.className = "w-1.5 h-1.5 rounded-full bg-[#008f39] inline-block animate-pulse shrink-0";
+                text.textContent = labelText || "Live Feed";
+                if (statusBar && !statusBar.classList.contains("hidden")) {
+                    if (statusTitle) statusTitle.textContent = "Back online";
+                    if (statusDesc) statusDesc.textContent = "Jeewan City live sync restored";
+                    if (statusIcon) statusIcon.textContent = "🌐";
+                    if (retryBtn) retryBtn.classList.add("hidden");
+                    setTimeout(() => {
+                        statusBar.classList.add("toast-exit");
+                        setTimeout(() => {
+                            statusBar.classList.add("hidden");
+                            statusBar.classList.remove("toast-exit");
+                        }, 350);
+                    }, 2000);
+                }
+            } else {
+                dot.className = "w-1.5 h-1.5 rounded-full bg-slate-400 inline-block shrink-0";
+                text.textContent = labelText || "Offline";
+                if (statusBar) {
+                    statusBar.classList.remove("hidden", "toast-exit");
+                    statusBar.classList.add("toast-enter");
+                    if (statusTitle) statusTitle.textContent = "No internet connection";
+                    if (statusDesc) statusDesc.textContent = "Viewing cached feed • Tap Retry";
+                    if (statusIcon) statusIcon.textContent = "📴";
+                    if (retryBtn) retryBtn.classList.remove("hidden");
+                }
+            }
+        }
+
+        function updateProfileUI() {
+            const name = appState.currentUserProfile.name || "Jeewan City Resident";
+            const block = appState.currentUserProfile.block || "Phase 1, Sahiwal";
+            const avatarUrl = appState.currentUserProfile.avatarUrl || "";
+            const initial = name.charAt(0).toUpperCase() || "J";
+
+            const avatarEl = document.getElementById("profileAvatarCircle");
+            const nameEl = document.getElementById("profileDisplayName");
+            const blockEl = document.getElementById("profileDisplayBlock");
+            const badgeEl = document.getElementById("profileAuthBadge");
+            const composerSubtitle = document.getElementById("composerAuthorSubtitle");
+            const shopCountEl = document.getElementById("profileShopCount");
+
+            if (avatarEl) {
+                if (avatarUrl) {
+                    avatarEl.innerHTML = `<img src="${escapeHtml(avatarUrl)}" alt="Avatar" class="w-full h-full object-cover">`;
+                } else {
+                    avatarEl.textContent = initial;
+                }
+            }
+            if (nameEl) nameEl.textContent = name;
+            if (blockEl) blockEl.textContent = block;
+            if (badgeEl) badgeEl.textContent = appState.authProviderLabel;
+            if (composerSubtitle) composerSubtitle.textContent = `Posting as ${name} (${block})`;
+            if (shopCountEl) shopCountEl.textContent = String(appState.shops.length);
+
+            renderProfileMyPosts();
+        }
+
+        function renderProfileMyPosts() {
+            const container = document.getElementById("profileMyPostsContainer");
+            const countEl = document.getElementById("profileMyPostCount");
+            const currentName = (appState.currentUserProfile.name || "").toLowerCase();
+            const myPosts = appState.posts.filter(p => (p.authorName || "").toLowerCase() === currentName);
+
+            if (countEl) countEl.textContent = String(myPosts.length);
+            if (!container) return;
+
+            if (myPosts.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white rounded-2xl border border-slate-200 p-4 text-center space-y-2">
+                        <p class="text-xs text-slate-500">You haven't posted any updates yet.</p>
+                        <button type="button" onclick="openCreatePostModal()" class="px-3.5 py-1.5 rounded-xl bg-[#008f39] text-white font-bold text-xs">
+                            + Create Your First Post
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = myPosts.map(p => `
+                <div class="bg-white rounded-2xl border border-slate-200 p-3 text-xs space-y-1 shadow-2xs">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-[#1b1a68]">${escapeHtml(p.tag || "General Chat")}</span>
+                        <span class="text-[10px] text-slate-400">${escapeHtml(p.timeLabel || "Recently")}</span>
+                    </div>
+                    <p class="text-slate-700 line-clamp-2">${escapeHtml(p.message || "Media attachment")}</p>
+                </div>
+            `).join("");
+        }
+
+        function loadLocalGuestProfile() {
+            try {
+                const saved = localStorage.getItem("jeewan_guest_profile");
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    if (parsed && parsed.name) {
+                        appState.currentUserProfile = {
+                            name: parsed.name,
+                            block: parsed.block || "Phase 1, Sahiwal",
+                            avatarUrl: parsed.avatarUrl || ""
+                        };
+                        return;
+                    }
+                }
+            } catch (e) {
+                console.warn("Local profile read skipped");
+            }
+            appState.currentUserProfile = { name: "Jeewan City Resident", block: "Phase 1, Sahiwal", avatarUrl: "" };
+        }
+
+        function showAuthConfigHelp(errorCode) {
+            const box = document.getElementById("authConfigHelpBox");
+            const title = document.getElementById("authConfigHelpTitle");
+            const desc = document.getElementById("authConfigHelpDesc");
+            if (!box || !title || !desc) return;
+
+            box.classList.remove("hidden");
+            if (errorCode === "auth/operation-not-allowed") {
+                title.textContent = "Provider Not Enabled in Firebase Console";
+                desc.textContent = "Enable this provider in Firebase Console → Authentication → Sign-in method, or tap 'Continue as Guest' above for instant access!";
+            } else if (errorCode === "auth/unauthorized-domain") {
+                title.textContent = "Domain Not Authorized Yet";
+                desc.textContent = "Add this domain in Firebase Console → Authentication → Settings → Authorized domains, or tap 'Continue as Guest' above.";
+            } else {
+                title.textContent = "Sign-in Notice (" + errorCode + ")";
+                desc.textContent = "Tap 'Continue as Guest' above to enter Jeewan City Sahiwal immediately.";
+            }
+        }
+
+        let firestoreSyncStarted = false;
+
+        function initAuthAndSync() {
+            if (!firestoreSyncStarted) {
+                firestoreSyncStarted = true;
+                initFirestoreSync();
+            }
+
+            getRedirectResult(auth).then(async (result) => {
+                if (result && result.user) {
+                    localStorage.removeItem("jeewan_guest_mode");
+                    try {
+                        await setDoc(doc(db, "jeewan_city_users", result.user.uid), {
+                            name: result.user.displayName || "Resident",
+                            email: result.user.email || "",
+                            block: appState.currentUserProfile.block || "Phase 1, Sahiwal",
+                            updatedAt: serverTimestamp()
+                        }, { merge: true });
+                    } catch (e) {
+                        console.warn("Redirect user doc write skipped:", e.message);
+                    }
+                    showToast("Signed In Successfully", `Welcome ${result.user.displayName || "to Jeewan City"}!`);
+                }
+            }).catch((err) => {
+                console.warn("Redirect result notice:", err.code);
+                showAuthConfigHelp(err.code || err.message);
+            });
+
+            onAuthStateChanged(auth, async (user) => {
+                const modal = document.getElementById("authModal");
+                if (user) {
+                    appState.currentUser = user;
+                    appState.isGuestSession = Boolean(user.isAnonymous);
+                    modal.classList.add("hidden");
+                    modal.classList.remove("flex");
+
+                    if (user.isAnonymous) {
+                        appState.authProviderLabel = "Guest Resident";
+                        loadLocalGuestProfile();
+                    } else {
+                        const providerId = (user.providerData && user.providerData[0] && user.providerData[0].providerId) || "email";
+                        appState.authProviderLabel = providerId.includes("google")
+                            ? "Google Verified"
+                            : providerId.includes("facebook")
+                            ? "Facebook Verified"
+                            : "Verified Resident";
+                        try {
+                            const userDocRef = doc(db, "jeewan_city_users", user.uid);
+                            const userSnap = await getDoc(userDocRef);
+                            if (userSnap.exists()) {
+                                appState.currentUserProfile = userSnap.data();
+                            } else {
+                                appState.currentUserProfile = {
+                                    name: user.displayName || (user.email ? user.email.split("@")[0] : "Resident"),
+                                    block: "Phase 1, Sahiwal",
+                                    avatarUrl: user.photoURL || ""
+                                };
+                            }
+                        } catch (e) {
+                            appState.currentUserProfile = {
+                                name: user.displayName || "Resident",
+                                block: "Phase 1, Sahiwal",
+                                avatarUrl: user.photoURL || ""
+                            };
+                        }
+                    }
+                    updateProfileUI();
+                } else if (localStorage.getItem("jeewan_guest_mode") === "true") {
+                    appState.isGuestSession = true;
+                    appState.authProviderLabel = "Guest Resident";
+                    loadLocalGuestProfile();
+                    updateProfileUI();
+                    updateGuestTabLockUI();
+                    modal.classList.add("hidden");
+                    modal.classList.remove("flex");
+                } else {
+                    appState.currentUser = null;
+                    appState.isGuestSession = false;
+                    updateGuestTabLockUI();
+                    modal.classList.remove("hidden");
+                    modal.classList.add("flex");
+                }
+            });
+        }
+
+        window.handleGoogleLogin = async function() {
+            const btn = document.getElementById("googleLoginBtn");
+            btn.disabled = true;
+            try {
+                const provider = new GoogleAuthProvider();
+                await signInWithRedirect(auth, provider);
+            } catch (err) {
+                showAuthConfigHelp(err.code || err.message);
+                btn.disabled = false;
+            }
+        };
+
+        window.handleFacebookLogin = async function() {
+            const btn = document.getElementById("facebookLoginBtn");
+            btn.disabled = true;
+            try {
+                const provider = new FacebookAuthProvider();
+                await signInWithRedirect(auth, provider);
+            } catch (err) {
+                showAuthConfigHelp(err.code || err.message);
+                btn.disabled = false;
+            }
+        };
+
+        window.handleGuestLogin = async function() {
+            const btn = document.getElementById("guestLoginBtn");
+            const modal = document.getElementById("authModal");
+            btn.disabled = true;
+            try {
+                await signInAnonymously(auth);
+            } catch (err) {
+                console.warn("Local guest fallback active");
+            }
+            localStorage.setItem("jeewan_guest_mode", "true");
+            appState.isGuestSession = true;
+            appState.authProviderLabel = "Guest Resident";
+            loadLocalGuestProfile();
+            updateProfileUI();
+            updateGuestTabLockUI();
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+            btn.disabled = false;
+            showToast("Guest Mode Active", "Welcome to Jeewan City Sahiwal!");
+        };
+
+        function updateGuestTabLockUI() {
+            const isGuest = appState.isGuestSession || (appState.currentUser && appState.currentUser.isAnonymous);
+            const profileNavBtn = document.getElementById("nav-profile");
+            if (profileNavBtn) {
+                if (isGuest) {
+                    profileNavBtn.title = "Sign in to access Profile";
+                } else {
+                    profileNavBtn.classList.remove("opacity-45");
+                    profileNavBtn.title = "Profile";
+                }
+            }
+        }
+
+        window.retryConnection = function() {
+            if (!navigator.onLine) {
+                updateConnectionBadge(false, "Offline");
+                showToast("Still Offline", "Please check your network connection.");
+                return;
+            }
+            showToast("Reconnecting...", "Checking Jeewan City live servers.");
+            firestoreSyncStarted = false;
+            initFirestoreSync();
+        };
+
+        window.openCreatePostModal = function() {
+            updateProfileUI();
+            applyComposerPermissions();
+            switchTab("create");
+            setTimeout(() => {
+                const input = document.getElementById("postMessageInput");
+                if (input) input.focus();
+            }, 150);
+        };
+
+        function applyComposerPermissions() {
+            const isGuest = appState.isGuestSession || (appState.currentUser && appState.currentUser.isAnonymous);
+            const hint = document.getElementById("guestCategoryHint");
+            if (hint) {
+                hint.classList.toggle("hidden", !isGuest);
+            }
+            if (isGuest) {
+                selectComposerTag("General Chat");
+            }
+            document.querySelectorAll(".composer-tag-btn").forEach(btn => {
+                const tag = btn.getAttribute("data-tag");
+                if (isGuest && tag !== "General Chat") {
+                    btn.classList.add("opacity-40", "cursor-not-allowed");
+                } else {
+                    btn.classList.remove("opacity-40", "cursor-not-allowed");
+                }
+            });
+        }
+
+        window.openGuestProfileModal = function() {
+            document.getElementById("guestNameInput").value = appState.currentUserProfile.name || "";
+            document.getElementById("guestBlockInput").value = appState.currentUserProfile.block || "";
+            const avatarPreview = document.getElementById("profileModalAvatarPreview");
+            if (avatarPreview) {
+                if (appState.currentUserProfile.avatarUrl) {
+                    avatarPreview.innerHTML = `<img src="${escapeHtml(appState.currentUserProfile.avatarUrl)}" alt="Avatar" class="w-full h-full object-cover">`;
+                } else {
+                    avatarPreview.textContent = (appState.currentUserProfile.name || "J").charAt(0).toUpperCase();
+                }
+            }
+            openModal("guestProfileModal");
+        };
+
+        window.handleAvatarFileSelect = async function(e) {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            const compressed = await compressImageFile(file, 300, 0.7);
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const base64 = ev.target.result;
+                appState.currentUserProfile.avatarUrl = base64;
+                const avatarPreview = document.getElementById("profileModalAvatarPreview");
+                if (avatarPreview) {
+                    avatarPreview.innerHTML = `<img src="${escapeHtml(base64)}" alt="Avatar" class="w-full h-full object-cover">`;
+                }
+            };
+            reader.readAsDataURL(compressed);
+        };
+
+        window.saveGuestProfile = async function(e) {
+            e.preventDefault();
+            const name = document.getElementById("guestNameInput").value.trim();
+            const block = document.getElementById("guestBlockInput").value.trim();
+            if (!name || !block) return;
+
+            appState.currentUserProfile.name = name;
+            appState.currentUserProfile.block = block;
+            localStorage.setItem("jeewan_guest_profile", JSON.stringify(appState.currentUserProfile));
+            updateProfileUI();
+
+            if (appState.currentUser && !appState.currentUser.isAnonymous) {
+                try {
+                    await setDoc(doc(db, "jeewan_city_users", appState.currentUser.uid), {
+                        name,
+                        block,
+                        avatarUrl: appState.currentUserProfile.avatarUrl || "",
+                        updatedAt: serverTimestamp()
+                    }, { merge: true });
+                } catch (err) {
+                    console.warn("Profile sync skipped:", err.message);
+                }
+            }
+
+            closeModal("guestProfileModal");
+            showToast("Profile Saved", `Posts will now show ${name} (${block}).`);
+        };
+
+        function initFirestoreSync() {
+            if (!navigator.onLine) {
+                updateConnectionBadge(false, "Offline");
+                renderAllEmptyOrLive();
+                return;
+            }
+            let initialPostsLoaded = false;
+            const knownPostIds = new Set();
+
+            try {
+                onSnapshot(doc(db, "jeewan_city_alerts", "current"), (snap) => {
+                    updateConnectionBadge(true, "Live Feed");
+                    if (snap.exists()) {
+                        appState.electricityAlert = snap.data();
+                    } else {
+                        appState.electricityAlert = null;
+                    }
+                    renderElectricityAlert();
+                }, () => {
+                    updateConnectionBadge(false, "Offline");
+                    appState.electricityAlert = null;
+                    renderElectricityAlert();
+                });
+
+                const postsQuery = query(collection(db, "jeewan_city_posts"), orderBy("createdAt", "desc"));
+                onSnapshot(postsQuery, (snapshot) => {
+                    updateConnectionBadge(true, "Live Feed");
+                    const livePosts = [];
+                    snapshot.forEach((docSnap) => {
+                        const data = docSnap.data();
+                        if (initialPostsLoaded && !knownPostIds.has(docSnap.id)) {
+                            const isSelf = (data.authorName || "").toLowerCase() === (appState.currentUserProfile.name || "").toLowerCase();
+                            if (!isSelf) {
+                                sendSystemPostNotification(
+                                    `${data.authorName || "Neighbor"} • ${data.tag || "Jeewan City"}`,
+                                    data.message || "Shared a new update in Jeewan City Sahiwal"
+                                );
+                            }
+                        }
+                        knownPostIds.add(docSnap.id);
+                        livePosts.push({
+                            id: docSnap.id,
+                            isSample: false,
+                            ...data,
+                            timeLabel: formatRelativeTime(data.createdAt)
+                        });
+                    });
+                    initialPostsLoaded = true;
+                    appState.posts = livePosts;
+                    renderCommunityFeed();
+                    renderAdminPosts();
+                    renderProfileMyPosts();
+                }, () => {
+                    updateConnectionBadge(false, "Offline");
+                    renderCommunityFeed();
+                });
+
+                const shopsQuery = query(collection(db, "jeewan_city_shops"), orderBy("createdAt", "desc"));
+                onSnapshot(shopsQuery, (snapshot) => {
+                    const liveShops = [];
+                    snapshot.forEach((docSnap) => {
+                        liveShops.push({ id: docSnap.id, isSample: false, ...docSnap.data() });
+                    });
+                    appState.shops = liveShops;
+                    renderShops();
+                    renderAdminShops();
+                    updateProfileUI();
+                }, () => {});
+
+                const reportsQuery = query(collection(db, "jeewan_city_reports"), orderBy("createdAt", "desc"));
+                onSnapshot(reportsQuery, (snapshot) => {
+                    const liveReports = [];
+                    snapshot.forEach((docSnap) => {
+                        liveReports.push({ id: docSnap.id, ...docSnap.data() });
+                    });
+                    appState.reports = liveReports;
+                    renderPublicReports();
+                    renderAdminReports();
+                }, () => {});
+
+                const dirQuery = query(collection(db, "jeewan_city_directory"), orderBy("createdAt", "desc"));
+                onSnapshot(dirQuery, (snapshot) => {
+                    const liveDir = [];
+                    snapshot.forEach((docSnap) => {
+                        liveDir.push({ id: docSnap.id, isSample: false, ...docSnap.data() });
+                    });
+                    if (liveDir.length > 0) appState.directory = liveDir;
+                    renderDirectory();
+                    renderAdminDirectory();
+                }, () => {});
+            } catch (e) {
+                updateConnectionBadge(false, "Offline");
+                renderAllEmptyOrLive();
+            }
+        }
+
+        function renderAllEmptyOrLive() {
+            renderElectricityAlert();
+            renderCommunityFeed();
+            renderShops();
+            renderDirectory();
+            renderPublicReports();
+            updateProfileUI();
+        }
+
+        function buildAlertCardMarkup() {
+            const a = appState.electricityAlert;
+            if (!a || !a.active) {
+                return `
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-3.5 flex items-center justify-between gap-3 shadow-2xs">
+                        <div class="flex items-center gap-3">
+                            <span class="w-10 h-10 rounded-xl bg-[#008f39] text-white flex items-center justify-center text-lg shrink-0">⚡</span>
+                            <div>
+                                <p class="text-xs font-extrabold text-emerald-950">Electricity Status: Normal</p>
+                                <p class="text-[11px] text-emerald-800">No long scheduled power shutdown reported right now in Jeewan City.</p>
+                            </div>
+                        </div>
+                        <span class="text-[10px] font-bold bg-emerald-200 text-emerald-900 px-2.5 py-1 rounded-full shrink-0">Normal</span>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 border-2 border-amber-400 rounded-2xl p-3.5 shadow-xs space-y-2.5">
+                    <div class="flex items-start justify-between gap-2">
+                        <div class="flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-xl bg-red-600 text-white flex items-center justify-center text-sm shrink-0">⚠️</span>
+                            <div>
+                                <span class="text-[10px] font-extrabold uppercase tracking-wider text-red-700">Advance Power Shutdown Alert</span>
+                                <h3 class="text-sm font-extrabold text-slate-900 leading-tight">${escapeHtml(a.date)} • ${escapeHtml(a.startTime)} to ${escapeHtml(a.endTime)}</h3>
+                            </div>
+                        </div>
+                        <span class="bg-red-600 text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full shrink-0">${escapeHtml(a.duration)}</span>
+                    </div>
+                    <div class="bg-white/85 rounded-xl p-2.5 border border-amber-200 text-[11px] space-y-1 text-slate-700">
+                        <p><span class="font-bold text-slate-900">Affected Area:</span> ${escapeHtml(a.blocks)}</p>
+                        <p><span class="font-bold text-slate-900">Reason:</span> ${escapeHtml(a.reason)}</p>
+                        <p class="text-amber-900 font-semibold">💡 ${escapeHtml(a.tip)}</p>
+                    </div>
+                    <button type="button" onclick="toggleReminder()" class="w-full py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 ${appState.reminderSet ? "bg-[#008f39] text-white" : "bg-[#1b1a68] text-white hover:opacity-95"}">
+                        <span>${appState.reminderSet ? "✅ Reminder Active (30 Mins Before)" : "🔔 Remind Me 30 Mins Before Outage"}</span>
+                    </button>
+                </div>
+            `;
+        }
+
+        function renderElectricityAlert() {
+            const homeContainer = document.getElementById("homeAlertContainer");
+            if (homeContainer) homeContainer.innerHTML = buildAlertCardMarkup();
+        }
+
+        function renderFeedFilters() {
+            const container = document.getElementById("feedFilterContainer");
+            if (!container) return;
+            container.innerHTML = feedFilters.map(f => {
+                const active = appState.selectedFeedFilter === f;
+                return `<button type="button" onclick="selectFeedFilter('${f}')" class="px-3 py-1 rounded-full text-[11px] font-bold whitespace-nowrap border transition ${active ? "bg-[#008f39] text-white border-[#008f39]" : "bg-white text-slate-600 border-slate-200 hover:bg-slate-100"}">${f}</button>`;
+            }).join("");
+        }
+
+        window.openFullScreenMedia = function(url, type) {
+            const modal = document.getElementById("fullScreenMediaModal");
+            const container = document.getElementById("fullScreenMediaContainer");
+            const downloadBtn = document.getElementById("fullScreenDownloadBtn");
+            if (!modal || !container) return;
+
+            if (type === "image") {
+                container.innerHTML = `<img src="${escapeHtml(url)}" alt="Full Screen Photo" class="max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl">`;
+            } else {
+                container.innerHTML = `<video src="${escapeHtml(url)}" controls autoplay playsinline class="max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl"></video>`;
+            }
+            if (downloadBtn) downloadBtn.href = url;
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        };
+
+        window.closeFullScreenMedia = function() {
+            const modal = document.getElementById("fullScreenMediaModal");
+            const container = document.getElementById("fullScreenMediaContainer");
+            if (container) container.innerHTML = "";
+            if (modal) {
+                modal.classList.add("hidden");
+                modal.classList.remove("flex");
+            }
+        };
+
+        window.togglePostMenu = function(postId, e) {
+            if (e) e.stopPropagation();
+            const menu = document.getElementById(`post-menu-${postId}`);
+            if (menu) menu.classList.toggle("hidden");
+        };
+
+        document.addEventListener("click", () => {
+            document.querySelectorAll("[id^='post-menu-']").forEach(m => m.classList.add("hidden"));
+        });
+
+        function renderCommunityFeed() {
+            const container = document.getElementById("communityFeedContainer");
+            const countBadge = document.getElementById("feedPostCount");
+            if (!container) return;
+
+            const filterMap = {
+                All: null,
+                Alerts: "Alert",
+                Issues: "Issue / Masla",
+                General: "General Chat"
+            };
+            const targetTag = filterMap[appState.selectedFeedFilter];
+            const filtered = targetTag ? appState.posts.filter(p => p.tag === targetTag) : appState.posts;
+
+            if (countBadge) countBadge.textContent = `${filtered.length} ${filtered.length === 1 ? "Post" : "Posts"}`;
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="bg-white rounded-2xl border border-slate-200 p-6 text-center text-xs text-slate-500">No messages yet. Tap the <strong>+</strong> button below to share an update!</div>`;
+                return;
+            }
+
+            const currentName = (appState.currentUserProfile.name || "").toLowerCase();
+
+            container.innerHTML = filtered.map(post => {
+                const tagColors = {
+                    "Alert": "bg-red-100 text-red-700 border-red-200",
+                    "Issue / Masla": "bg-amber-100 text-amber-800 border-amber-200",
+                    "Bazaar / Offer": "bg-blue-100 text-blue-700 border-blue-200",
+                    "General Chat": "bg-emerald-100 text-emerald-800 border-emerald-200"
+                };
+                const badgeClass = tagColors[post.tag] || tagColors["General Chat"];
+
+                let mediaHtml = "";
+                if (post.mediaUrl) {
+                    if (post.mediaType === "image") {
+                        mediaHtml = `
+                            <div class="relative group mt-2 cursor-pointer" onclick="openFullScreenMedia('${escapeHtml(post.mediaUrl)}', 'image')">
+                                <img src="${escapeHtml(post.mediaUrl)}" alt="Post attachment" class="w-full max-h-64 object-cover rounded-xl border border-slate-200">
+                                <span class="absolute right-2 bottom-2 bg-black/60 text-white text-[10px] font-bold px-2 py-1 rounded-lg backdrop-blur-xs">🔍 Tap for Fullscreen</span>
+                            </div>
+                        `;
+                    } else if (post.mediaType === "video") {
+                        mediaHtml = `
+                            <div class="relative mt-2">
+                                <video src="${escapeHtml(post.mediaUrl)}" controls playsinline preload="metadata" class="w-full max-h-64 rounded-xl border border-slate-200 bg-black"></video>
+                                <button type="button" onclick="openFullScreenMedia('${escapeHtml(post.mediaUrl)}', 'video')" class="absolute top-2 right-2 bg-black/70 hover:bg-black text-white text-[10px] font-bold px-2.5 py-1.5 rounded-lg backdrop-blur-xs">
+                                    ⛶ Fullscreen &amp; Sound
+                                </button>
+                            </div>
+                        `;
+                    } else {
+                        mediaHtml = `
+                            <a href="${escapeHtml(post.mediaUrl)}" download="${escapeHtml(post.fileName || "document")}" target="_blank" rel="noopener noreferrer" class="mt-2 flex items-center gap-2.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl p-2.5 text-xs">
+                                <span class="text-lg">📄</span>
+                                <span class="font-bold text-slate-800 truncate flex-1">${escapeHtml(post.fileName || "Attached Document")}</span>
+                                <span class="text-[10px] font-bold text-[#008f39] shrink-0">Open ↗</span>
+                            </a>
+                        `;
+                    }
+                }
+
+                const isMyPost = (post.authorName || "").toLowerCase() === currentName || appState.adminUnlocked;
+                const deleteMenuHtml = isMyPost ? `
+                    <div class="relative">
+                        <button type="button" onclick="togglePostMenu('${post.id}', event)" class="w-7 h-7 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center font-extrabold text-xs">⋮</button>
+                        <div id="post-menu-${post.id}" class="hidden absolute right-0 top-8 w-32 bg-white rounded-xl shadow-xl border border-slate-200 py-1 z-20 text-xs">
+                            <button type="button" onclick="deletePost('${post.id}', ${Boolean(post.isSample)})" class="w-full px-3 py-2 text-left text-red-600 font-bold hover:bg-red-50 flex items-center gap-1.5">
+                                <span>🗑️</span> Delete Post
+                            </button>
+                        </div>
+                    </div>
+                ` : "";
+
+                const commentsList = Array.isArray(post.comments) ? post.comments : [];
+                const commentsHtml = commentsList.length > 0 ? `
+                    <div class="bg-slate-50 rounded-xl p-2.5 space-y-1.5 border border-slate-100">
+                        ${commentsList.map(c => `
+                            <div class="text-[11px] leading-snug">
+                                <span class="font-bold text-slate-900">${escapeHtml(c.author)}:</span>
+                                <span class="text-slate-700">${escapeHtml(c.text)}</span>
+                            </div>
+                        `).join("")}
+                    </div>
+                ` : "";
+
+                return `
+                    <article class="bg-white rounded-2xl border border-slate-200 p-3.5 shadow-2xs space-y-2.5">
+                        <div class="flex items-start justify-between gap-2">
+                            <div class="flex items-center gap-2 min-w-0">
+                                <div class="w-8 h-8 rounded-full bg-[#1b1a68] text-white font-extrabold text-xs flex items-center justify-center shrink-0 overflow-hidden">
+                                    ${escapeHtml((post.authorName || "R").charAt(0).toUpperCase())}
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="text-xs font-extrabold text-slate-900 truncate">${escapeHtml(post.authorName || "Resident")}</p>
+                                    <p class="text-[10px] text-slate-500 truncate">${escapeHtml(post.authorBlock || "Phase 1, Sahiwal")} • ${escapeHtml(post.timeLabel || "Recently")}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5 shrink-0">
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border ${badgeClass}">${escapeHtml(post.tag || "General Chat")}</span>
+                                ${deleteMenuHtml}
+                            </div>
+                        </div>
+
+                        ${post.message ? `<p class="text-xs text-slate-800 leading-relaxed whitespace-pre-line">${escapeHtml(post.message)}</p>` : ""}
+                        ${mediaHtml}
+                        ${commentsHtml}
+
+                        <div class="pt-1 border-t border-slate-100 flex items-center justify-between text-[11px]">
+                            <button type="button" onclick="likePost('${post.id}', ${Boolean(post.isSample)})" class="flex items-center gap-1 font-bold text-slate-600 hover:text-[#008f39] py-1 px-2 rounded-lg hover:bg-emerald-50 transition">
+                                <span>👍 Helpful</span>
+                                <span class="text-[#008f39]">(${post.likes || 0})</span>
+                            </button>
+                            <button type="button" onclick="toggleReplyBox('${post.id}')" class="flex items-center gap-1 font-bold text-slate-600 hover:text-[#1b1a68] py-1 px-2 rounded-lg hover:bg-indigo-50 transition">
+                                <span>💬 Reply (${commentsList.length})</span>
+                            </button>
+                        </div>
+
+                        <form id="reply-box-${post.id}" onsubmit="submitPostReply(event, '${post.id}', ${Boolean(post.isSample)})" class="hidden flex items-center gap-1.5 pt-1">
+                            <input type="text" id="reply-input-${post.id}" placeholder="Write a helpful reply..." required class="flex-1 px-3 py-1.5 rounded-xl border border-slate-300 text-xs focus:border-[#008f39] focus:outline-none">
+                            <button type="submit" class="px-3 py-1.5 rounded-xl bg-[#008f39] text-white text-xs font-bold hover:bg-emerald-800">Send</button>
+                        </form>
+                    </article>
+                `;
+            }).join("");
+        }
+
+        function renderCategories() {
+            const container = document.getElementById("categoryFilterContainer");
+            if (!container) return;
+            container.innerHTML = categories.map(cat => {
+                const active = appState.selectedCategory === cat;
+                return `<button type="button" onclick="selectCategory('${cat}')" class="px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap border transition ${active ? "bg-[#008f39] text-white border-[#008f39] shadow-2xs" : "bg-white text-slate-600 border-slate-200 hover:bg-slate-100"}">${cat}</button>`;
+            }).join("");
+        }
+
+        function renderShops() {
+            const featuredContainer = document.getElementById("featuredShopsContainer");
+            const regularContainer = document.getElementById("regularShopsContainer");
+            if (!featuredContainer || !regularContainer) return;
+
+            const q = appState.searchQuery.toLowerCase().trim();
+            const filtered = appState.shops.filter(shop => {
+                const matchesCat = appState.selectedCategory === "All" || shop.category === appState.selectedCategory;
+                const matchesQuery = !q ||
+                    (shop.name && shop.name.toLowerCase().includes(q)) ||
+                    (shop.offer && shop.offer.toLowerCase().includes(q)) ||
+                    (shop.block && shop.block.toLowerCase().includes(q));
+                return matchesCat && matchesQuery;
+            });
+
+            const featured = filtered.filter(s => s.featured);
+            const regular = filtered.filter(s => !s.featured);
+
+            const renderShopCard = (s, isFeatured) => {
+                const waText = encodeURIComponent(`Assalam-o-Alaikum ${s.name}! I saw your offer on Jeewan City Sahiwal App: "${s.offer}"`);
+                return `
+                    <div class="rounded-2xl p-3.5 border transition ${isFeatured ? "bg-gradient-to-br from-amber-50/90 to-white border-amber-300 shadow-xs" : "bg-white border-slate-200"} space-y-2.5">
+                        <div class="flex items-start justify-between gap-2">
+                            <div>
+                                <div class="flex items-center gap-1.5 flex-wrap">
+                                    <h4 class="text-sm font-extrabold text-slate-900">${escapeHtml(s.name)}</h4>
+                                    ${isFeatured ? `<span class="text-[10px] font-extrabold bg-amber-400 text-slate-950 px-2 py-0.5 rounded-full">⭐ Featured</span>` : ""}
+                                </div>
+                                <p class="text-[11px] text-slate-500 mt-0.5">${escapeHtml(s.category)} • ${escapeHtml(s.block)} • 🕒 ${escapeHtml(s.timing || "9 AM - 10 PM")}</p>
+                            </div>
+                        </div>
+                        <div class="bg-emerald-50 border border-emerald-200 rounded-xl px-3 py-2 text-xs font-bold text-emerald-900">
+                            🏷️ ${escapeHtml(s.offer)}
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 pt-0.5">
+                            <a href="https://wa.me/${escapeHtml(s.phone)}?text=${waText}" target="_blank" rel="noopener noreferrer" class="py-2 px-3 rounded-xl bg-[#008f39] hover:bg-emerald-800 text-white text-xs font-bold text-center transition">
+                                💬 WhatsApp Order
+                            </a>
+                            <a href="tel:+${escapeHtml(s.phone)}" class="py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold text-center transition">
+                                📞 Call Shop
+                            </a>
+                        </div>
+                    </div>
+                `;
+            };
+
+            featuredContainer.innerHTML = featured.length > 0
+                ? featured.map(s => renderShopCard(s, true)).join("")
+                : `<p class="text-xs text-slate-400 italic">No featured shops match this filter.</p>`;
+
+            regularContainer.innerHTML = regular.length > 0
+                ? regular.map(s => renderShopCard(s, false)).join("")
+                : `<p class="text-xs text-slate-400 italic">No shops found matching your search.</p>`;
+        }
+
+        function renderDirectory() {
+            const container = document.getElementById("directoryListContainer");
+            if (!container) return;
+            if (appState.directory.length === 0) {
+                container.innerHTML = `<div class="bg-white rounded-2xl border border-slate-200 p-6 text-center text-xs text-slate-500">No colony contacts added yet.</div>`;
+                return;
+            }
+            container.innerHTML = appState.directory.map(item => `
+                <div class="bg-white rounded-2xl border border-slate-200 p-3.5 flex items-center justify-between gap-3 shadow-2xs">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <span class="w-10 h-10 rounded-xl ${item.color || "bg-emerald-100 text-emerald-700"} flex items-center justify-center text-lg shrink-0">${escapeHtml(item.icon || "📞")}</span>
+                        <div class="min-w-0">
+                            <h4 class="text-xs font-extrabold text-slate-900 truncate">${escapeHtml(item.title)}</h4>
+                            <p class="text-[11px] text-slate-500 truncate">${escapeHtml(item.role)}</p>
+                            <p class="text-xs font-bold text-[#008f39] mt-0.5">${escapeHtml(item.phone)}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <a href="https://wa.me/${escapeHtml(item.phone)}" target="_blank" rel="noopener noreferrer" class="px-2.5 py-2 rounded-xl bg-emerald-50 text-[#008f39] hover:bg-emerald-100 text-xs font-bold transition" title="WhatsApp">
+                            💬
+                        </a>
+                        <a href="tel:${escapeHtml(item.phone)}" class="px-3.5 py-2 rounded-xl bg-[#008f39] hover:bg-emerald-800 text-white text-xs font-bold transition">
+                            Call
+                        </a>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        function renderPublicReports() {
+            const container = document.getElementById("publicReportsContainer");
+            if (!container) return;
+            if (appState.reports.length === 0) {
+                container.innerHTML = `<div class="bg-slate-50 rounded-xl border border-slate-200 p-3 text-center text-[11px] text-slate-500">No street outage tips reported today.</div>`;
+                return;
+            }
+            container.innerHTML = appState.reports.map(r => `
+                <div class="bg-amber-50 border border-amber-200 rounded-xl p-2.5 text-xs space-y-1">
+                    <div class="flex items-center justify-between">
+                        <span class="font-extrabold text-amber-950">📍 ${escapeHtml(r.block)}</span>
+                        <span class="text-[10px] font-bold bg-amber-200 text-amber-900 px-2 py-0.5 rounded-full">Est: ${escapeHtml(r.duration)}</span>
+                    </div>
+                    <p class="text-slate-700 text-[11px]">${escapeHtml(r.details)}</p>
+                    <p class="text-[10px] text-slate-500">Reported by ${escapeHtml(r.reportedBy || "Resident")}</p>
+                </div>
+            `).join("");
+        }
+
+        function renderAdminShops() {
+            const container = document.getElementById("adminShopsList");
+            if (!container) return;
+            container.innerHTML = appState.shops.map(s => `
+                <div class="flex items-center justify-between gap-2 bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs">
+                    <div class="min-w-0">
+                        <p class="font-bold text-slate-900 truncate">${escapeHtml(s.name)} ${s.featured ? "⭐" : ""}</p>
+                        <p class="text-[10px] text-slate-500 truncate">${escapeHtml(s.offer)}</p>
+                    </div>
+                    <button type="button" onclick="deleteShop('${s.id}', ${Boolean(s.isSample)})" class="px-2.5 py-1 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 font-bold text-[11px] shrink-0">
+                        Delete
+                    </button>
+                </div>
+            `).join("");
+        }
+
+        function renderAdminDirectory() {
+            const container = document.getElementById("adminDirectoryList");
+            if (!container) return;
+            container.innerHTML = appState.directory.map(d => `
+                <div class="flex items-center justify-between gap-2 bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs">
+                    <div class="min-w-0">
+                        <p class="font-bold text-slate-900 truncate">${escapeHtml(d.icon || "📞")} ${escapeHtml(d.title)}</p>
+                        <p class="text-[10px] text-slate-500 truncate">${escapeHtml(d.phone)} • ${escapeHtml(d.role)}</p>
+                    </div>
+                    <button type="button" onclick="deleteDirectoryContact('${d.id}', ${Boolean(d.isSample)})" class="px-2.5 py-1 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 font-bold text-[11px] shrink-0">
+                        Delete
+                    </button>
+                </div>
+            `).join("");
+        }
+
+        function renderAdminReports() {
+            const container = document.getElementById("adminReportsList");
+            if (!container) return;
+            if (appState.reports.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-400">No pending resident reports.</p>`;
+                return;
+            }
+            container.innerHTML = appState.reports.map(r => `
+                <div class="flex items-center justify-between gap-2 bg-amber-50 border border-amber-200 rounded-xl p-2.5 text-xs">
+                    <div class="min-w-0">
+                        <p class="font-bold text-slate-900 truncate">${escapeHtml(r.block)} (${escapeHtml(r.duration)})</p>
+                        <p class="text-[10px] text-slate-600 truncate">${escapeHtml(r.details)}</p>
+                    </div>
+                    <button type="button" onclick="deleteReport('${r.id}')" class="px-2.5 py-1 rounded-lg bg-white text-red-600 border border-red-200 font-bold text-[11px] shrink-0">
+                        Dismiss
+                    </button>
+                </div>
+            `).join("");
+        }
+
+        function renderAdminPosts() {
+            const container = document.getElementById("adminPostsList");
+            if (!container) return;
+            container.innerHTML = appState.posts.map(p => `
+                <div class="flex items-center justify-between gap-2 bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs">
+                    <div class="min-w-0">
+                        <p class="font-bold text-slate-900 truncate">${escapeHtml(p.authorName)} • ${escapeHtml(p.tag)}</p>
+                        <p class="text-[10px] text-slate-500 truncate">${escapeHtml(p.message || "Attachment")}</p>
+                    </div>
+                    <button type="button" onclick="deletePost('${p.id}', ${Boolean(p.isSample)})" class="px-2.5 py-1 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 font-bold text-[11px] shrink-0">
+                        Delete
+                    </button>
+                </div>
+            `).join("");
+        }
+
+        window.deletePost = async function(postId, isSample) {
+            if (isSample) {
+                appState.posts = appState.posts.filter(p => p.id !== postId);
+                renderCommunityFeed();
+                renderAdminPosts();
+                renderProfileMyPosts();
+                showToast("Post Removed", "Community post deleted.");
+                return;
+            }
+            try {
+                await deleteDoc(doc(db, "jeewan_city_posts", postId));
+                showToast("Post Removed", "Community post deleted.");
+            } catch (err) {
+                console.error("Delete post error:", err);
+            }
+        };
+
+        window.handleLogin = async function(e) {
+            e.preventDefault();
+            const email = document.getElementById("loginEmail").value.trim();
+            const password = document.getElementById("loginPassword").value.trim();
+            const errEl = document.getElementById("loginErrorMsg");
+            const btn = document.getElementById("loginSubmitBtn");
+
+            btn.disabled = true;
+            btn.textContent = "Logging in...";
+            errEl.classList.add("hidden");
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                localStorage.removeItem("jeewan_guest_mode");
+                showToast("Welcome Back!", "Logged into Jeewan City Sahiwal.");
+            } catch (err) {
+                errEl.textContent = err.message;
+                errEl.classList.remove("hidden");
+                if (err.code === "auth/operation-not-allowed" || err.code === "auth/unauthorized-domain") {
+                    showAuthConfigHelp(err.code);
+                }
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Login with Email";
+            }
+        };
+
+        window.handleRegister = async function(e) {
+            e.preventDefault();
+            const name = document.getElementById("regName").value.trim();
+            const block = document.getElementById("regBlock").value.trim();
+            const phone = document.getElementById("regPhone").value.trim();
+            const email = document.getElementById("regEmail").value.trim();
+            const password = document.getElementById("regPassword").value.trim();
+            const errEl = document.getElementById("regErrorMsg");
+            const btn = document.getElementById("regSubmitBtn");
+
+            btn.disabled = true;
+            btn.textContent = "Creating Account...";
+            errEl.classList.add("hidden");
+
+            try {
+                const cred = await createUserWithEmailAndPassword(auth, email, password);
+                await updateProfile(cred.user, { displayName: name });
+                localStorage.removeItem("jeewan_guest_mode");
+
+                await setDoc(doc(db, "jeewan_city_users", cred.user.uid), {
+                    name,
+                    block,
+                    phone,
+                    email,
+                    createdAt: serverTimestamp()
+                });
+
+                showToast("Account Created!", "Welcome to Jeewan City Sahiwal community.");
+            } catch (err) {
+                errEl.textContent = err.message;
+                errEl.classList.remove("hidden");
+                if (err.code === "auth/operation-not-allowed" || err.code === "auth/unauthorized-domain") {
+                    showAuthConfigHelp(err.code);
+                }
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Register Account";
+            }
+        };
+
+        window.handleLogout = async function() {
+            try {
+                localStorage.removeItem("jeewan_guest_mode");
+                appState.isGuestSession = false;
+                if (auth.currentUser) {
+                    await signOut(auth);
+                }
+                const modal = document.getElementById("authModal");
+                modal.classList.remove("hidden");
+                modal.classList.add("flex");
+                showToast("Signed Out", "Choose Guest, Google, Facebook, or Email to continue.");
+            } catch (err) {
+                console.error("Logout error:", err);
+            }
+        };
+
+        window.selectComposerTag = function(tag) {
+            const isGuest = appState.isGuestSession || (appState.currentUser && appState.currentUser.isAnonymous);
+            if (isGuest && tag !== "General Chat") {
+                showToast("Guest Restriction", "Guest accounts can only post in General Chat. Sign in to post Alerts or Issues.");
+                tag = "General Chat";
+            }
+            appState.composerTag = tag;
+            document.querySelectorAll(".composer-tag-btn").forEach(btn => {
+                const isThis = btn.getAttribute("data-tag") === tag;
+                btn.className = "composer-tag-btn py-1.5 px-3 rounded-xl text-[11px] font-bold border transition shrink-0 " + (
+                    isThis
+                    ? (tag === "Alert"
+                        ? "bg-red-600 text-white border-red-600"
+                        : tag === "Issue / Masla"
+                        ? "bg-amber-500 text-slate-950 border-amber-500"
+                        : "bg-[#008f39] text-white border-[#008f39]")
+                    : "bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100"
+                );
+            });
+        };
+
+        window.selectFeedFilter = function(filterName) {
+            appState.selectedFeedFilter = filterName;
+            renderFeedFilters();
+            renderCommunityFeed();
+        };
+
+        function compressImageFile(file, maxDimension = 900, quality = 0.65) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > maxDimension || height > maxDimension) {
+                            if (width > height) {
+                                height = Math.round((height * maxDimension) / width);
+                                width = maxDimension;
+                            } else {
+                                width = Math.round((width * maxDimension) / height);
+                                height = maxDimension;
+                            }
+                        }
+
+                        const canvas = document.createElement("canvas");
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext("2d");
+                        ctx.fillStyle = "#ffffff";
+                        ctx.fillRect(0, 0, width, height);
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        canvas.toBlob((blob) => {
+                            if (blob && blob.size < file.size) {
+                                const compressedName = file.name.replace(/\.[^/.]+$/, "") + ".jpg";
+                                const compressedFile = new File([blob], compressedName, { type: "image/jpeg" });
+                                resolve(compressedFile);
+                            } else {
+                                resolve(file);
+                            }
+                        }, "image/jpeg", quality);
+                    };
+                    img.onerror = () => resolve(file);
+                    img.src = ev.target.result;
+                };
+                reader.onerror = () => resolve(file);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        window.handleMediaSelect = async function(event, mediaType) {
+            const rawFile = event.target.files && event.target.files[0];
+            if (!rawFile) return;
+
+            const previewBox = document.getElementById("composerAttachmentPreview");
+            const previewContent = document.getElementById("attachmentPreviewContent");
+            const sendBtn = document.getElementById("sendPostBtn");
+            previewBox.classList.remove("hidden");
+
+            const originalSize = rawFile.size;
+            appState.isCompressingMedia = true;
+            sendBtn.disabled = true;
+
+            if (mediaType === "image") {
+                previewContent.innerHTML = `
+                    <span class="w-11 h-11 rounded-lg bg-emerald-100 text-[#008f39] flex items-center justify-center text-lg shrink-0 animate-pulse">🗜️</span>
+                    <div class="min-w-0">
+                        <p class="font-bold text-slate-800 truncate">Compressing Photo...</p>
+                        <p class="text-[10px] text-slate-500">Original: ${formatBytes(originalSize)}</p>
+                    </div>
+                `;
+                const compressedFile = await compressImageFile(rawFile, 900, 0.65);
+                const objectUrl = URL.createObjectURL(compressedFile);
+                appState.pendingAttachment = {
+                    file: compressedFile,
+                    mediaType,
+                    objectUrl,
+                    fileName: compressedFile.name,
+                    originalSize,
+                    compressedSize: compressedFile.size
+                };
+                previewContent.innerHTML = `
+                    <img src="${objectUrl}" alt="Preview" class="w-11 h-11 rounded-lg object-cover border border-slate-300 shrink-0">
+                    <div class="min-w-0">
+                        <p class="font-bold text-slate-800 truncate">${escapeHtml(compressedFile.name)}</p>
+                        <p class="text-[10px] text-[#008f39] font-extrabold">✅ Compressed: ${formatBytes(originalSize)} → ${formatBytes(compressedFile.size)}</p>
+                    </div>
+                `;
+            } else if (mediaType === "video") {
+                const objectUrl = URL.createObjectURL(rawFile);
+                appState.pendingAttachment = {
+                    file: rawFile,
+                    mediaType,
+                    objectUrl,
+                    fileName: rawFile.name,
+                    originalSize,
+                    compressedSize: rawFile.size
+                };
+                previewContent.innerHTML = `
+                    <span class="w-11 h-11 rounded-lg bg-slate-900 text-white flex items-center justify-center text-lg shrink-0">🎥</span>
+                    <div class="min-w-0">
+                        <p class="font-bold text-slate-800 truncate">${escapeHtml(rawFile.name)}</p>
+                        <p class="text-[10px] text-[#008f39] font-extrabold">✅ Video ready with sound (${formatBytes(rawFile.size)})</p>
+                    </div>
+                `;
+            } else {
+                const objectUrl = URL.createObjectURL(rawFile);
+                appState.pendingAttachment = {
+                    file: rawFile,
+                    mediaType,
+                    objectUrl,
+                    fileName: rawFile.name,
+                    originalSize,
+                    compressedSize: rawFile.size
+                };
+                previewContent.innerHTML = `
+                    <span class="w-11 h-11 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-lg shrink-0">📄</span>
+                    <div class="min-w-0">
+                        <p class="font-bold text-slate-800 truncate">${escapeHtml(rawFile.name)}</p>
+                        <p class="text-[10px] text-[#008f39] font-semibold">Document ready (${formatBytes(rawFile.size)})</p>
+                    </div>
+                `;
+            }
+
+            appState.isCompressingMedia = false;
+            sendBtn.disabled = false;
+        };
+
+        window.clearComposerAttachment = function() {
+            appState.pendingAttachment = null;
+            document.getElementById("photoFileInput").value = "";
+            document.getElementById("videoFileInput").value = "";
+            document.getElementById("docFileInput").value = "";
+            document.getElementById("composerAttachmentPreview").classList.add("hidden");
+        };
+
+        window.submitCommunityPost = async function(e) {
+            e.preventDefault();
+            if (appState.isCompressingMedia) {
+                showToast("Please Wait", "Finishing media processing...");
+                return;
+            }
+
+            const isGuest = appState.isGuestSession || (appState.currentUser && appState.currentUser.isAnonymous);
+            const finalTag = isGuest ? "General Chat" : (appState.composerTag === "Bazaar / Offer" ? "General Chat" : appState.composerTag);
+
+            const authorName = appState.currentUserProfile.name || "Jeewan City Resident";
+            const authorBlock = appState.currentUserProfile.block || "Phase 1, Sahiwal";
+            const message = document.getElementById("postMessageInput").value.trim();
+            const attachment = appState.pendingAttachment;
+
+            if (!message && !attachment) {
+                showToast("Empty Post", "Please write a message or attach a photo, video, or file.");
+                return;
+            }
+
+            const btn = document.getElementById("sendPostBtn");
+            btn.disabled = true;
+            btn.innerHTML = `<span>Posting...</span>`;
+
+            let mediaType = "";
+            let mediaUrl = "";
+            let fileName = "";
+
+            if (attachment) {
+                mediaType = attachment.mediaType;
+                fileName = attachment.fileName;
+                if (attachment.file.size <= 2 * 1024 * 1024) {
+                    try {
+                        mediaUrl = await new Promise((resolve, reject) => {
+                            const reader = new FileReader();
+                            reader.onload = (ev) => resolve(ev.target.result);
+                            reader.onerror = (err) => reject(err);
+                            reader.readAsDataURL(attachment.file);
+                        });
+                    } catch (err) {
+                        mediaUrl = attachment.objectUrl;
+                    }
+                } else {
+                    mediaUrl = attachment.objectUrl;
+                }
+            }
+
+            const firestoreMediaUrl = mediaUrl && mediaUrl.startsWith("data:") ? mediaUrl : "";
+            const newPostPayload = {
+                authorName,
+                authorBlock,
+                tag: finalTag,
+                message,
+                mediaType: firestoreMediaUrl ? mediaType : (mediaUrl ? mediaType : ""),
+                mediaUrl: firestoreMediaUrl || mediaUrl,
+                fileName,
+                likes: 0,
+                comments: [],
+                createdAt: serverTimestamp()
+            };
+
+            if (navigator.onLine) {
+                try {
+                    await addDoc(collection(db, "jeewan_city_posts"), newPostPayload);
+                } catch (err) {
+                    appState.posts.unshift({ id: "local-post-" + Date.now(), isSample: true, ...newPostPayload, timeLabel: "Just now" });
+                    renderCommunityFeed();
+                    renderProfileMyPosts();
+                }
+            } else {
+                appState.posts.unshift({ id: "local-post-" + Date.now(), isSample: true, ...newPostPayload, timeLabel: "Just now" });
+                renderCommunityFeed();
+                renderProfileMyPosts();
+                showToast("Saved Locally", "Post stored offline. Will sync when online.");
+            }
+
+            const statusEl = document.getElementById("postComposerStatusMsg");
+            if (statusEl) statusEl.classList.add("hidden");
+            document.getElementById("postMessageInput").value = "";
+            clearComposerAttachment();
+            switchTab("home");
+
+            btn.disabled = false;
+            btn.innerHTML = `<span>Publish Post</span><span>➤</span>`;
+        };
+
+        window.likePost = async function(postId, isSample) {
+            if (isSample) {
+                const post = appState.posts.find(p => p.id === postId);
+                if (post) {
+                    post.likes = (post.likes || 0) + 1;
+                    renderCommunityFeed();
+                }
+                return;
+            }
+            try {
+                await updateDoc(doc(db, "jeewan_city_posts", postId), {
+                    likes: increment(1)
+                });
+            } catch (err) {
+                console.error("Like update error:", err);
+            }
+        };
+
+        window.toggleReplyBox = function(postId) {
+            const box = document.getElementById(`reply-box-${postId}`);
+            if (!box) return;
+            box.classList.toggle("hidden");
+            if (!box.classList.contains("hidden")) {
+                const input = document.getElementById(`reply-input-${postId}`);
+                if (input) input.focus();
+            }
+        };
+
+        window.submitPostReply = async function(e, postId, isSample) {
+            e.preventDefault();
+            const input = document.getElementById(`reply-input-${postId}`);
+            if (!input) return;
+            const replyText = input.value.trim();
+            if (!replyText) return;
+
+            const authorLabel = `${appState.currentUserProfile.name} (${appState.currentUserProfile.block})`;
+
+            if (isSample) {
+                const post = appState.posts.find(p => p.id === postId);
+                if (post) {
+                    post.comments = post.comments || [];
+                    post.comments.push({ author: authorLabel, text: replyText });
+                    renderCommunityFeed();
+                }
+                return;
+            }
+
+            try {
+                await updateDoc(doc(db, "jeewan_city_posts", postId), {
+                    comments: arrayUnion({ author: authorLabel, text: replyText })
+                });
+                input.value = "";
+            } catch (err) {
+                console.error("Reply error:", err);
+            }
+        };
+
+        window.unlockAdmin = function(e) {
+            e.preventDefault();
+            const pin = document.getElementById("adminPinInput").value.trim();
+            const errEl = document.getElementById("pinErrorMsg");
+            if (pin === ADMIN_PIN) {
+                appState.adminUnlocked = true;
+                errEl.classList.add("hidden");
+                document.getElementById("adminPinInput").value = "";
+                document.getElementById("adminLockScreen").classList.add("hidden");
+                document.getElementById("adminDashboard").classList.remove("hidden");
+                renderAdminPosts();
+                renderCommunityFeed();
+                showToast("Admin Unlocked", "You can now manage alerts, shops, and delete any post.");
+            } else {
+                errEl.classList.remove("hidden");
+            }
+        };
+
+        window.lockAdmin = function() {
+            appState.adminUnlocked = false;
+            document.getElementById("adminDashboard").classList.add("hidden");
+            document.getElementById("adminLockScreen").classList.remove("hidden");
+            renderCommunityFeed();
+        };
+
+        window.publishElectricityAlert = async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById("publishAlertBtn");
+            btn.disabled = true;
+
+            const payload = {
+                active: true,
+                date: document.getElementById("adminDate").value.trim(),
+                startTime: document.getElementById("adminStartTime").value.trim(),
+                endTime: document.getElementById("adminEndTime").value.trim(),
+                duration: document.getElementById("adminDuration").value.trim(),
+                blocks: document.getElementById("adminBlocks").value.trim(),
+                reason: document.getElementById("adminReason").value.trim(),
+                tip: "Fill water tanks and charge UPS/phones in advance.",
+                updatedAt: serverTimestamp()
+            };
+
+            try {
+                await setDoc(doc(db, "jeewan_city_alerts", "current"), payload);
+                appState.electricityAlert = payload;
+                renderElectricityAlert();
+                showToast("Power Alert Broadcasted!", `${payload.date}: ${payload.startTime} - ${payload.endTime}`);
+            } catch (err) {
+                appState.electricityAlert = payload;
+                renderElectricityAlert();
+                showToast("Alert Updated", "Power schedule updated on screen.");
+            } finally {
+                btn.disabled = false;
+            }
+        };
+
+        window.clearElectricityAlert = async function() {
+            const payload = {
+                active: false,
+                updatedAt: serverTimestamp()
+            };
+            try {
+                await setDoc(doc(db, "jeewan_city_alerts", "current"), payload, { merge: true });
+            } catch (err) {
+                console.warn("Clear alert fallback:", err.message);
+            }
+            if (appState.electricityAlert) appState.electricityAlert.active = false;
+            renderElectricityAlert();
+            showToast("Alert Cleared", "Power supply status set to Normal.");
+        };
+
+        window.toggleReminder = function() {
+            appState.reminderSet = !appState.reminderSet;
+            renderElectricityAlert();
+            if (appState.reminderSet) {
+                showToast("Reminder Scheduled", "You will be reminded 30 minutes before the power outage.");
+            } else {
+                showToast("Reminder Cancelled", "Outage reminder turned off.");
+            }
+        };
+
+        window.selectCategory = function(cat) {
+            appState.selectedCategory = cat;
+            renderCategories();
+            renderShops();
+        };
+
+        window.handleSearch = function(val) {
+            appState.searchQuery = val;
+            renderShops();
+        };
+
+        window.addNewShop = async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById("addShopBtn");
+            btn.disabled = true;
+
+            let rawPhone = document.getElementById("shopPhoneInput").value.replace(/\D/g, "");
+            if (rawPhone.startsWith("0")) rawPhone = "92" + rawPhone.slice(1);
+
+            const shopData = {
+                name: document.getElementById("shopNameInput").value.trim(),
+                category: document.getElementById("shopCategoryInput").value,
+                block: document.getElementById("shopBlockInput").value.trim(),
+                offer: document.getElementById("shopOfferInput").value.trim(),
+                phone: rawPhone || "923016929697",
+                timing: document.getElementById("shopTimeInput").value.trim(),
+                featured: document.getElementById("shopFeaturedInput").checked,
+                createdAt: serverTimestamp()
+            };
+
+            try {
+                await addDoc(collection(db, "jeewan_city_shops"), shopData);
+                e.target.reset();
+                document.getElementById("shopTimeInput").value = "8 AM - 11 PM";
+                showToast("Shop Published!", `${shopData.name} is now live in Jeewan City Sahiwal Bazaar.`);
+            } catch (err) {
+                appState.shops.unshift({ id: "local-shop-" + Date.now(), isSample: true, ...shopData });
+                renderShops();
+                renderAdminShops();
+                e.target.reset();
+                showToast("Shop Added", `${shopData.name} listed in Bazaar.`);
+            } finally {
+                btn.disabled = false;
+            }
+        };
+
+        window.deleteShop = async function(shopId, isSample) {
+            if (isSample) {
+                appState.shops = appState.shops.filter(s => s.id !== shopId);
+                renderShops();
+                renderAdminShops();
+                return;
+            }
+            try {
+                await deleteDoc(doc(db, "jeewan_city_shops", shopId));
+                showToast("Shop Removed", "Shop deleted from Bazaar.");
+            } catch (err) {
+                console.error("Delete shop error:", err);
+            }
+        };
+
+        window.addNewDirectoryContact = async function(e) {
+            e.preventDefault();
+            const contactData = {
+                title: document.getElementById("dirTitle").value.trim(),
+                phone: document.getElementById("dirPhone").value.trim(),
+                role: document.getElementById("dirRole").value.trim(),
+                icon: document.getElementById("dirIcon").value,
+                color: "bg-emerald-100 text-emerald-700",
+                createdAt: serverTimestamp()
+            };
+
+            try {
+                await addDoc(collection(db, "jeewan_city_directory"), contactData);
+                e.target.reset();
+                showToast("Contact Saved", `${contactData.title} added to Emergency Directory.`);
+            } catch (err) {
+                appState.directory.unshift({ id: "local-dir-" + Date.now(), isSample: true, ...contactData });
+                renderDirectory();
+                renderAdminDirectory();
+                e.target.reset();
+                showToast("Contact Added", `${contactData.title} added.`);
+            }
+        };
+
+        window.deleteDirectoryContact = async function(dirId, isSample) {
+            if (isSample) {
+                appState.directory = appState.directory.filter(d => d.id !== dirId);
+                renderDirectory();
+                renderAdminDirectory();
+                return;
+            }
+            try {
+                await deleteDoc(doc(db, "jeewan_city_directory", dirId));
+                showToast("Contact Removed", "Emergency contact deleted.");
+            } catch (err) {
+                console.error("Delete contact error:", err);
+            }
+        };
+
+        window.submitResidentTip = async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById("submitTipBtn");
+            btn.disabled = true;
+
+            const reportData = {
+                block: document.getElementById("tipBlock").value.trim(),
+                duration: document.getElementById("tipDuration").value.trim(),
+                details: document.getElementById("tipDetails").value.trim(),
+                reportedBy: appState.currentUserProfile.name || "Resident",
+                createdAt: serverTimestamp()
+            };
+
+            try {
+                await addDoc(collection(db, "jeewan_city_reports"), reportData);
+                e.target.reset();
+                closeModal("tipModal");
+                showToast("Outage Tip Sent!", "Reported to Jeewan City Admin for verification.");
+            } catch (err) {
+                appState.reports.unshift({ id: "local-rep-" + Date.now(), ...reportData });
+                renderPublicReports();
+                renderAdminReports();
+                e.target.reset();
+                closeModal("tipModal");
+                showToast("Tip Recorded", "Your street outage tip is visible.");
+            } finally {
+                btn.disabled = false;
+            }
+        };
+
+        window.deleteReport = async function(reportId) {
+            try {
+                await deleteDoc(doc(db, "jeewan_city_reports", reportId));
+                showToast("Report Dismissed", "Outage tip removed.");
+            } catch (err) {
+                appState.reports = appState.reports.filter(r => r.id !== reportId);
+                renderPublicReports();
+                renderAdminReports();
+            }
+        };
+
+        window.toggleHeaderMenu = function(e) {
+            if (e) e.stopPropagation();
+            const menu = document.getElementById("headerDropdownMenu");
+            if (!menu) return;
+            menu.classList.toggle("hidden");
+        };
+
+        window.closeHeaderMenu = function() {
+            const menu = document.getElementById("headerDropdownMenu");
+            if (menu) menu.classList.add("hidden");
+        };
+
+        document.addEventListener("click", (e) => {
+            const menu = document.getElementById("headerDropdownMenu");
+            const btn = document.getElementById("headerMenuBtn");
+            if (menu && !menu.classList.contains("hidden") && !menu.contains(e.target) && btn && !btn.contains(e.target)) {
+                menu.classList.add("hidden");
+            }
+        });
+
+        window.openSettingsModal = function() {
+            const summary = document.getElementById("settingsProfileSummary");
+            if (summary) {
+                summary.textContent = `${appState.currentUserProfile.name} (${appState.currentUserProfile.block})`;
+            }
+            try {
+                const savedSettings = JSON.parse(localStorage.getItem("jeewan_app_settings") || "{}");
+                const notifEl = document.getElementById("settingAlertNotifs");
+                const compEl = document.getElementById("settingAutoCompress");
+                if (notifEl && typeof savedSettings.alertNotifs === "boolean") notifEl.checked = savedSettings.alertNotifs;
+                if (compEl && typeof savedSettings.autoCompress === "boolean") compEl.checked = savedSettings.autoCompress;
+            } catch (err) {
+                console.warn("Settings read skipped");
+            }
+            openModal("settingsModal");
+        };
+
+        window.saveAppSettings = function() {
+            const notifEl = document.getElementById("settingAlertNotifs");
+            const compEl = document.getElementById("settingAutoCompress");
+            try {
+                localStorage.setItem("jeewan_app_settings", JSON.stringify({
+                    alertNotifs: notifEl ? notifEl.checked : true,
+                    autoCompress: compEl ? compEl.checked : true
+                }));
+            } catch (err) {
+                console.warn("Settings write skipped");
+            }
+            showToast("Settings Saved", "Your app preferences have been updated.");
+        };
+
+        window.switchTab = function(tabName) {
+            const isGuest = appState.isGuestSession || (appState.currentUser && appState.currentUser.isAnonymous);
+            if (tabName === "profile" && isGuest) {
+                const closeAuthBtn = document.getElementById("closeAuthModalBtn");
+                if (closeAuthBtn) {
+                    closeAuthBtn.classList.remove("hidden");
+                    closeAuthBtn.classList.add("flex");
+                }
+                openModal("authModal");
+                return;
+            }
+            appState.activeTab = tabName;
+            ["home", "bazaar", "directory", "profile", "admin", "create", "about"].forEach(t => {
+                const section = document.getElementById(`tab-${t}`);
+                const navBtn = document.getElementById(`nav-${t}`);
+                if (section) section.classList.toggle("hidden", t !== tabName);
+                if (navBtn) {
+                    if (t === tabName) {
+                        navBtn.className = "nav-btn flex-1 flex flex-col items-center justify-center py-1 rounded-xl text-[#008f39] font-extrabold transition";
+                    } else {
+                        navBtn.className = "nav-btn flex-1 flex flex-col items-center justify-center py-1 rounded-xl text-slate-500 font-medium hover:text-slate-800 transition";
+                    }
+                }
+            });
+            updateGuestTabLockUI();
+            if (tabName === "profile") {
+                updateProfileUI();
+            }
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        };
+
+        window.openModal = function(modalId) {
+            const modal = document.getElementById(modalId);
+            if (!modal) return;
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        };
+
+        window.closeModal = function(modalId) {
+            const modal = document.getElementById(modalId);
+            if (!modal) return;
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+        };
+
+        function sendSystemPostNotification(title, body) {
+            try {
+                const savedSettings = JSON.parse(localStorage.getItem("jeewan_app_settings") || "{}");
+                if (savedSettings.alertNotifs === false) return;
+            } catch (e) {}
+
+            if ("Notification" in window && Notification.permission === "granted") {
+                try {
+                    const notif = new Notification(title, {
+                        body: body,
+                        tag: "jeewan-city-post"
+                    });
+                    notif.onclick = () => {
+                        window.focus();
+                        switchTab("home");
+                        notif.close();
+                    };
+                } catch (e) {
+                    console.warn("System notification skipped:", e.message);
+                }
+            }
+        }
+
+        window.showToast = function(title, body) {
+            if (title && (title.includes("Power Alert") || title.includes("•"))) {
+                sendSystemPostNotification(title, body);
+            }
+        };
+
+        window.openPermissionsPrompt = function(forceOpen) {
+            const alreadyAsked = localStorage.getItem("jeewan_permissions_asked") === "true";
+            const notifGranted = !("Notification" in window) || Notification.permission === "granted";
+            if (forceOpen || (!alreadyAsked && !notifGranted)) {
+                openModal("permissionsModal");
+            }
+        };
+
+        window.dismissPermissionsModal = function() {
+            localStorage.setItem("jeewan_permissions_asked", "true");
+            closeModal("permissionsModal");
+        };
+
+        window.requestAppPermissions = async function() {
+            localStorage.setItem("jeewan_permissions_asked", "true");
+            if ("Notification" in window && Notification.permission !== "granted") {
+                try {
+                    const perm = await Notification.requestPermission();
+                    if (perm === "granted") {
+                        new Notification("Jeewan City Sahiwal", {
+                            body: "Notifications enabled! You will receive new community post alerts."
+                        });
+                    }
+                } catch (e) {
+                    console.warn("Notification permission request error:", e);
+                }
+            }
+            if (navigator.storage && navigator.storage.persist) {
+                try {
+                    await navigator.storage.persist();
+                } catch (e) {}
+            }
+            closeModal("permissionsModal");
+        };
+
+        window.copyAppLink = function() {
+            const tempInput = document.createElement("input");
+            tempInput.value = window.location.href;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            const btn = document.getElementById("headerMenuBtn");
+            if (btn) {
+                btn.title = "Link Copied!";
+            }
+        };
+
+        function initQRCode() {
+            const qrContainer = document.getElementById("qrCodeCanvas");
+            if (!qrContainer || typeof QRCode === "undefined") return;
+            qrContainer.innerHTML = "";
+            new QRCode(qrContainer, {
+                text: window.location.href,
+                width: 156,
+                height: 156,
+                colorDark: "#1b1a68",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+
+        function runJeewanCitySplash() {
+            const splash = document.getElementById("jeewanSplashScreen");
+            const typedEl = document.getElementById("splashTypedText");
+            const caretEl = document.getElementById("splashCaret");
+            const underlineEl = document.getElementById("splashUnderline");
+            if (!splash || !typedEl) return;
+
+            const word = "JEEWAN CITY";
+            let idx = 0;
+
+            setTimeout(() => {
+                const typeInterval = setInterval(() => {
+                    typedEl.textContent += word.charAt(idx);
+                    idx++;
+                    if (idx >= word.length) {
+                        clearInterval(typeInterval);
+                        if (caretEl) caretEl.style.display = "none";
+                        if (underlineEl) underlineEl.classList.remove("opacity-0");
+                        setTimeout(() => {
+                            splash.classList.add("opacity-0", "pointer-events-none");
+                            setTimeout(() => {
+                                splash.classList.add("hidden");
+                                openPermissionsPrompt(false);
+                            }, 500);
+                        }, 650);
+                    }
+                }, 115);
+            }, 400);
+        }
+
+        window.addEventListener("offline", () => {
+            updateConnectionBadge(false, "Offline");
+        });
+
+        window.addEventListener("online", () => {
+            updateConnectionBadge(true, "Live Feed");
+            initFirestoreSync();
+        });
+
+        window.addEventListener("DOMContentLoaded", () => {
+            runJeewanCitySplash();
+            renderElectricityAlert();
+            renderFeedFilters();
+            renderCommunityFeed();
+            renderCategories();
+            renderShops();
+            renderDirectory();
+            renderPublicReports();
+            renderAdminDirectory();
+            initQRCode();
+            initAuthAndSync();
+            if (!navigator.onLine) {
+                updateConnectionBadge(false, "Offline");
+            }
+        });
+    </script>
+</body>
+</html>

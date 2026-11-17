@@ -1,0 +1,6 @@
+{
+  "name": "Jeewan City Sahiwal",
+  "description": "Official Jeewan City Sahiwal community alerts, WhatsApp-style resident group chat, media sharing, emergency contacts, and local bazaar.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,838 @@
+9
+184
+15:49:22.255
+Backend
+Log
+ Starting build...
+  Starting a Gradle Daemon, 1 busy Daemon could not be reused, use --status for details
+  Calculating task graph as configuration cache cannot be reused because file 'app/build.gradle.kts' has changed.
+  > Task :app:preBuild UP-TO-DATE
+  > Task :app:generateDebugAssets UP-TO-DATE
+  > Task :app:preDebugBuild UP-TO-DATE
+  > Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+  > Task :app:processDebugGoogleServices UP-TO-DATE
+  > Task :app:generateDebugResources UP-TO-DATE
+  > Task :app:generateDebugBuildConfig UP-TO-DATE
+  > Task :app:kspDebugKotlin SKIPPED
+  > Task :app:javaPreCompileDebug UP-TO-DATE
+  > Task :app:packageDebugResources UP-TO-DATE
+  > Task :app:desugarDebugFileDependencies UP-TO-DATE
+  > Task :app:processDebugNavigationResources UP-TO-DATE
+  > Task :app:checkDebugAarMetadata UP-TO-DATE
+  > Task :app:mapDebugSourceSetPaths UP-TO-DATE
+  > Task :app:compileDebugNavigationResources UP-TO-DATE
+  > Task :app:mergeDebugAssets UP-TO-DATE
+  > Task :app:parseDebugLocalResources UP-TO-DATE
+  > Task :app:generateDebugRFile UP-TO-DATE
+  > Task :app:compressDebugAssets
+  > Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+  > Task :app:extractDeepLinksDebug UP-TO-DATE
+  > Task :app:mergeDebugResources UP-TO-DATE
+  > Task :app:mergeDebugJniLibFolders UP-TO-DATE
+  > Task :app:checkDebugDuplicateClasses
+  > Task :app:compileDebugKotlin UP-TO-DATE
+  > Task :app:compileDebugJavaWithJavac UP-TO-DATE
+  > Task :app:processDebugJavaRes UP-TO-DATE
+  > Task :app:processDebugMainManifest UP-TO-DATE
+  > Task :app:mergeLibDexDebug UP-TO-DATE
+  > Task :app:processDebugManifest UP-TO-DATE
+  > Task :app:processDebugManifestForPackage UP-TO-DATE
+  > Task :app:mergeDebugNativeLibs
+  > Task :app:stripDebugDebugSymbols
+  > Task :app:validateSigningDebug UP-TO-DATE
+  > Task :app:writeDebugAppMetadata UP-TO-DATE
+  > Task :app:writeDebugSigningConfigVersions UP-TO-DATE
+  > Task :app:mergeDebugJavaResource
+  > Task :app:processDebugResources UP-TO-DATE
+  > Task :app:dexBuilderDebug
+  > Task :app:mergeProjectDexDebug
+  > Task :app:mergeExtDexDebug
+  > Task :app:packageDebug
+  > Task :app:assembleDebug
+  > Task :app:createDebugApkListingFileRedirect UP-TO-DATE
+  
+  BUILD SUCCESSFUL in 1m 2s
+  38 actionable tasks: 9 executed, 29 up-to-date
+  Configuration cache entry stored. 
+15:49:22.256
+Backend
+Log
+ Build successful. 
+15:49:22.256
+Backend
+Log
+ Environment variables updated. Dev server not running. 
+15:49:22.364
+Backend
+Log
+ CONNECTED 
+15:49:23.788
+System
+Build
+ Render End 
+15:49:24.462
+Android
+Debug
+ 11-15 10:48:58.464 10369 D/EGL_emulation: app_time_stats: avg=26.10ms min=5.25ms max=48.48ms count=21 
+15:49:24.462
+Android
+Debug
+ 11-15 10:48:59.487 10369 D/EGL_emulation: app_time_stats: avg=25.05ms min=2.54ms max=45.16ms count=20 
+15:49:24.462
+Android
+Debug
+ 11-15 10:49:00.498 10369 D/EGL_emulation: app_time_stats: avg=27.78ms min=3.22ms max=68.38ms count=20 
+15:49:24.463
+Android
+Debug
+ 11-15 10:49:01.508 10369 D/EGL_emulation: app_time_stats: avg=26.68ms min=13.38ms max=42.57ms count=19 
+15:49:24.463
+Android
+Debug
+ 11-15 10:49:02.562 10369 D/EGL_emulation: app_time_stats: avg=26.28ms min=7.46ms max=44.61ms count=21 
+15:49:24.463
+Android
+Debug
+ 11-15 10:49:03.574 10369 D/EGL_emulation: app_time_stats: avg=26.60ms min=16.56ms max=47.75ms count=20 
+15:49:24.463
+Android
+Debug
+ 11-15 10:49:04.637 10369 D/EGL_emulation: app_time_stats: avg=27.14ms min=7.95ms max=56.88ms count=21 
+15:49:24.463
+Android
+Debug
+ 11-15 10:49:05.664 10369 D/EGL_emulation: app_time_stats: avg=29.41ms min=7.18ms max=57.41ms count=20 
+15:49:24.463
+Android
+Debug
+ 11-15 10:49:06.669 10369 D/EGL_emulation: app_time_stats: avg=30.94ms min=14.79ms max=59.39ms count=20 
+15:49:24.463
+Android
+Debug
+ 11-15 10:49:07.724 10369 D/EGL_emulation: app_time_stats: avg=27.57ms min=20.34ms max=47.45ms count=21 
+15:49:24.463
+Android
+Debug
+ 11-15 10:49:08.732 10369 D/EGL_emulation: app_time_stats: avg=27.50ms min=15.18ms max=50.27ms count=20 
+15:49:24.463
+Android
+Debug
+ 11-15 10:49:09.747 10369 D/EGL_emulation: app_time_stats: avg=26.86ms min=8.91ms max=53.84ms count=20 
+15:49:24.463
+Android
+Debug
+ 11-15 10:49:10.766 10369 D/EGL_emulation: app_time_stats: avg=30.75ms min=9.94ms max=63.36ms count=20 
+15:49:24.463
+Android
+Debug
+ 11-15 10:49:11.769 10369 D/EGL_emulation: app_time_stats: avg=33.22ms min=10.58ms max=71.33ms count=20 
+15:49:24.464
+Android
+Debug
+ 11-15 10:49:12.797 10369 D/EGL_emulation: app_time_stats: avg=25.39ms min=2.82ms max=50.12ms count=20 
+15:49:24.464
+Android
+Debug
+ 11-15 10:49:13.860 10369 D/EGL_emulation: app_time_stats: avg=25.32ms min=16.10ms max=36.73ms count=21 
+15:49:24.464
+Android
+Debug
+ 11-15 10:49:14.873 10369 D/EGL_emulation: app_time_stats: avg=27.95ms min=7.65ms max=81.32ms count=20 
+15:49:24.464
+Android
+Debug
+ 11-15 10:49:15.917 10369 D/EGL_emulation: app_time_stats: avg=28.22ms min=7.89ms max=45.41ms count=20 
+15:49:24.464
+Android
+Debug
+ 11-15 10:49:16.938 10369 D/EGL_emulation: app_time_stats: avg=26.53ms min=2.54ms max=42.65ms count=20 
+15:49:24.464
+Android
+Debug
+ 11-15 10:49:17.954 10369 D/EGL_emulation: app_time_stats: avg=26.27ms min=8.51ms max=47.91ms count=20 
+15:49:24.464
+Android
+Debug
+ 11-15 10:49:18.979 10369 D/EGL_emulation: app_time_stats: avg=28.69ms min=13.34ms max=47.72ms count=20 
+15:49:24.464
+Android
+Debug
+ 11-15 10:49:20.008 10369 D/EGL_emulation: app_time_stats: avg=27.41ms min=9.63ms max=53.89ms count=20 
+15:49:24.464
+Android
+Debug
+ 11-15 10:49:21.073 10369 D/EGL_emulation: app_time_stats: avg=28.02ms min=6.66ms max=46.84ms count=21 
+15:49:24.464
+Android
+Debug
+ 11-15 10:49:22.116 10369 D/EGL_emulation: app_time_stats: avg=25.46ms min=4.53ms max=36.37ms count=20 
+15:49:25.519
+Backend
+Log
+ Starting build... 
+15:49:27.489
+Backend
+Log
+ Reusing configuration cache. 
+15:49:27.807
+Backend
+Log
+ > Task :app:preBuild UP-TO-DATE 
+15:49:27.811
+Backend
+Log
+ > Task :app:generateDebugAssets UP-TO-DATE 
+15:49:27.815
+Backend
+Log
+ > Task :app:preDebugBuild UP-TO-DATE 
+15:49:27.816
+Backend
+Log
+ > Task :app:mergeDebugNativeDebugMetadata NO-SOURCE 
+15:49:27.817
+Backend
+Log
+ > Task :app:processDebugGoogleServices UP-TO-DATE 
+15:49:27.817
+Backend
+Log
+ > Task :app:generateDebugBuildConfig UP-TO-DATE 
+15:49:27.817
+Backend
+Log
+ > Task :app:kspDebugKotlin SKIPPED 
+15:49:27.817
+Backend
+Log
+ > Task :app:generateDebugResources UP-TO-DATE 
+15:49:27.817
+Backend
+Log
+ > Task :app:javaPreCompileDebug UP-TO-DATE 
+15:49:27.817
+Backend
+Log
+ > Task :app:packageDebugResources UP-TO-DATE 
+15:49:27.817
+Backend
+Log
+ > Task :app:desugarDebugFileDependencies UP-TO-DATE 
+15:49:28.102
+Backend
+Log
+ > Task :app:checkDebugDuplicateClasses UP-TO-DATE 
+15:49:28.103
+Backend
+Log
+ > Task :app:mergeExtDexDebug UP-TO-DATE 
+15:49:28.301
+Backend
+Log
+ > Task :app:mergeLibDexDebug UP-TO-DATE 
+15:49:28.463
+Backend
+Log
+ > Task :app:mapDebugSourceSetPaths UP-TO-DATE 
+15:49:28.463
+Backend
+Log
+ > Task :app:checkDebugAarMetadata UP-TO-DATE 
+15:49:28.464
+Backend
+Log
+ > Task :app:mergeDebugAssets UP-TO-DATE 
+15:49:28.464
+Backend
+Log
+ > Task :app:mergeDebugResources UP-TO-DATE 
+15:49:28.464
+Backend
+Log
+ > Task :app:compressDebugAssets UP-TO-DATE 
+15:49:28.464
+Backend
+Log
+ > Task :app:createDebugCompatibleScreenManifests UP-TO-DATE 
+15:49:28.464
+Backend
+Log
+ > Task :app:extractDeepLinksDebug UP-TO-DATE 
+15:49:28.464
+Backend
+Log
+ > Task :app:validateSigningDebug UP-TO-DATE 
+15:49:28.464
+Backend
+Log
+ > Task :app:mergeDebugJniLibFolders UP-TO-DATE 
+15:49:28.464
+Backend
+Log
+ > Task :app:writeDebugAppMetadata UP-TO-DATE 
+15:49:28.729
+Backend
+Log
+ > Task :app:writeDebugSigningConfigVersions UP-TO-DATE 
+15:49:28.729
+Backend
+Log
+ > Task :app:mergeDebugNativeLibs UP-TO-DATE 
+15:49:28.729
+Backend
+Log
+ > Task :app:processDebugMainManifest UP-TO-DATE 
+15:49:28.729
+Backend
+Log
+ > Task :app:stripDebugDebugSymbols UP-TO-DATE 
+15:49:28.729
+Backend
+Log
+ > Task :app:processDebugManifest UP-TO-DATE 
+15:49:28.729
+Backend
+Log
+ > Task :app:processDebugManifestForPackage UP-TO-DATE 
+15:49:28.730
+Backend
+Log
+ > Task :app:processDebugNavigationResources UP-TO-DATE 
+15:49:28.730
+Backend
+Log
+ > Task :app:compileDebugNavigationResources UP-TO-DATE 
+15:49:28.730
+Backend
+Log
+ > Task :app:parseDebugLocalResources UP-TO-DATE 
+15:49:28.730
+Backend
+Log
+ > Task :app:generateDebugRFile UP-TO-DATE 
+15:49:28.730
+Backend
+Log
+ > Task :app:compileDebugKotlin UP-TO-DATE 
+15:49:28.730
+Backend
+Log
+ > Task :app:processDebugJavaRes UP-TO-DATE 
+15:49:28.730
+Backend
+Log
+ > Task :app:processDebugResources UP-TO-DATE 
+15:49:28.912
+Backend
+Log
+ > Task :app:compileDebugJavaWithJavac UP-TO-DATE 
+15:49:28.913
+Backend
+Log
+ > Task :app:dexBuilderDebug UP-TO-DATE 
+15:49:28.913
+Backend
+Log
+ > Task :app:mergeDebugJavaResource UP-TO-DATE 
+15:49:28.913
+Backend
+Log
+ > Task :app:mergeProjectDexDebug UP-TO-DATE 
+15:49:28.913
+Backend
+Log
+ > Task :app:packageDebug UP-TO-DATE 
+15:49:28.913
+Backend
+Log
+ > Task :app:assembleDebug UP-TO-DATE 
+15:49:28.913
+Backend
+Log
+ > Task :app:createDebugApkListingFileRedirect UP-TO-DATE 
+15:49:28.913
+Backend
+Log
+ BUILD SUCCESSFUL in 3s 
+15:49:28.913
+Backend
+Log
+ 38 actionable tasks: 38 up-to-date 
+15:49:28.913
+Backend
+Log
+ Configuration cache entry reused. 
+15:49:28.913
+Backend
+Log
+ Build successful. 
+15:49:44.579
+Android
+Debug
+ 11-15 10:49:23.167 10369 D/EGL_emulation: app_time_stats: avg=25.39ms min=8.83ms max=52.93ms count=21 
+15:49:44.580
+Android
+Debug
+ 11-15 10:49:24.173 10369 D/EGL_emulation: app_time_stats: avg=29.14ms min=13.43ms max=67.38ms count=20 
+15:49:44.580
+Android
+Debug
+ 11-15 10:49:25.207 10369 D/EGL_emulation: app_time_stats: avg=29.08ms min=21.07ms max=54.89ms count=20 
+15:49:44.580
+Android
+Debug
+ 11-15 10:49:26.215 10369 D/EGL_emulation: app_time_stats: avg=26.77ms min=18.09ms max=43.57ms count=20 
+15:49:44.580
+Android
+Debug
+ 11-15 10:49:27.223 10369 D/EGL_emulation: app_time_stats: avg=29.13ms min=7.33ms max=71.95ms count=20 
+15:49:44.580
+Android
+Debug
+ 11-15 10:49:28.256 10369 D/EGL_emulation: app_time_stats: avg=26.34ms min=6.98ms max=48.41ms count=19 
+15:49:44.580
+Android
+Log
+ 11-15 10:49:29.673 10973 I/eewancity.jcswl: Late-enabling -Xcheck:jni 
+15:49:44.580
+Android
+Log
+ 11-15 10:49:29.689 10973 I/eewancity.jcswl: Using CollectorTypeCMC GC. 
+15:49:44.580
+Android
+Debug
+ 11-15 10:49:29.696 10973 D/nativeloader: Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok 
+15:49:44.580
+Android
+Warning
+ 11-15 10:49:29.729 10973 W/ziparchive: Unable to open '/data/app/~~e15uQnd-LQTEbUrmCHbe-Q==/com.aistudio.jeewancity.jcswl-imZipPbtvwjTQs9S20tf5w==/base.dm': No such file or directory
+Unable to open '/data/app/~~e15uQnd-LQTEbUrmCHbe-Q==/com.aistudio.jeewancity.jcswl-imZipPbtvwjTQs9S20tf5w==/base.dm': No such file or directory 
+15:49:44.580
+Android
+Debug
+ 11-15 10:49:30.601 10973 D/nativeloader: Configuring clns-7 for other apk /data/app/~~e15uQnd-LQTEbUrmCHbe-Q==/com.aistudio.jeewancity.jcswl-imZipPbtvwjTQs9S20tf5w==/base.apk. target_sdk_version=36, uses_libraries=, library_path=/data/app/~~e15uQnd-LQTEbUrmCHbe-Q==/com.aistudio.jeewancity.jcswl-imZipPbtvwjTQs9S20tf5w==/lib/arm64:/data/app/~~e15uQnd-LQTEbUrmCHbe-Q==/com.aistudio.jeewancity.jcswl-imZipPbtvwjTQs9S20tf5w==/base.apk!/lib/arm64-v8a, permitted_path=/data:/mnt/expand:/data/user/0/com.aistudio.jeewancity.jcswl 
+15:49:44.580
+Android
+Debug
+ 11-15 10:49:30.603 10973 V/GraphicsEnvironment: Currently set values for:
+angle_gl_driver_selection_pkgs=[]
+angle_gl_driver_selection_values=[]
+Global.Settings values are invalid: number of packages: 0, number of values: 0
+Neither updatable production driver nor prerelease driver is supported. 
+15:49:44.580
+Android
+Warning
+ 11-15 10:49:30.763 10973 W/HWUI    : Unknown dataspace 0 
+15:49:44.580
+Android
+Log
+ 11-15 10:49:30.983 10973 I/WebViewFactory: Loading com.google.android.webview version 124.0.6367.219 (code 636771932) 
+15:49:44.581
+Android
+Debug
+ 11-15 10:49:30.986 10973 V/ResourcesManager: The following library key has been added: ResourcesKey{ mHash=356c55f3 mResDir=null mSplitDirs=[] mOverlayDirs=[/product/overlay/NavigationBarModeGestural/NavigationBarModeGesturalOverlay.apk,/data/resource-cache/com.android.systemui-neutral-KxXY.frro,/data/resource-cache/com.android.systemui-accent-w5B4.frro,/data/resource-cache/com.android.systemui-dynamic-PKqz.frro] mLibDirs=[/data/app/~~saSCm3iTN0va3YIMo0cGjQ==/com.google.android.webview-CGF9AV5bQISXYJGORgrX5Q==/WebViewGoogle.apk,/data/app/~~Gugm69O5JQ-udqt98jkj9Q==/com.google.android.trichromelibrary_636771932-JAgEq9wLhkG1YfBrJNdB8Q==/TrichromeLibrary.apk,/system_ext/framework/androidx.window.extensions.jar] mDisplayId=0 mOverrideConfig=v35 mCompatInfo={420dpi always-compat} mLoaders=[]} 
+15:49:44.581
+Android
+Warning
+ 11-15 10:49:30.988 10973 W/ziparchive: Unable to open '/data/app/~~Gugm69O5JQ-udqt98jkj9Q==/com.google.android.trichromelibrary_636771932-JAgEq9wLhkG1YfBrJNdB8Q==/TrichromeLibrary.dm': No such file or directory
+Unable to open '/data/app/~~Gugm69O5JQ-udqt98jkj9Q==/com.google.android.trichromelibrary_636771932-JAgEq9wLhkG1YfBrJNdB8Q==/TrichromeLibrary.dm': No such file or directory 
+15:49:44.581
+Android
+Warning
+ 11-15 10:49:30.989 10973 W/eewancity.jcswl: Entry not found 
+15:49:44.581
+Android
+Debug
+ 11-15 10:49:30.991 10973 D/nativeloader: Configuring clns-8 for other apk /data/app/~~Gugm69O5JQ-udqt98jkj9Q==/com.google.android.trichromelibrary_636771932-JAgEq9wLhkG1YfBrJNdB8Q==/TrichromeLibrary.apk. target_sdk_version=34, uses_libraries=ALL, library_path=/data/app/~~saSCm3iTN0va3YIMo0cGjQ==/com.google.android.webview-CGF9AV5bQISXYJGORgrX5Q==/lib/arm64:/data/app/~~saSCm3iTN0va3YIMo0cGjQ==/com.google.android.webview-CGF9AV5bQISXYJGORgrX5Q==/WebViewGoogle.apk!/lib/arm64-v8a:/data/app/~~Gugm69O5JQ-udqt98jkj9Q==/com.google.android.trichromelibrary_636771932-JAgEq9wLhkG1YfBrJNdB8Q==/TrichromeLibrary.apk!/lib/arm64-v8a, permitted_path=/data:/mnt/expand 
+15:49:44.581
+Android
+Debug
+ 11-15 10:49:30.991 10973 D/ApplicationLoaders: Returning zygote-cached class loader: /system_ext/framework/androidx.window.extensions.jar 
+15:49:44.581
+Android
+Debug
+ 11-15 10:49:30.993 10973 D/nativeloader: Configuring clns-9 for other apk /data/app/~~saSCm3iTN0va3YIMo0cGjQ==/com.google.android.webview-CGF9AV5bQISXYJGORgrX5Q==/WebViewGoogle.apk. target_sdk_version=34, uses_libraries=, library_path=/data/app/~~saSCm3iTN0va3YIMo0cGjQ==/com.google.android.webview-CGF9AV5bQISXYJGORgrX5Q==/lib/arm64:/data/app/~~saSCm3iTN0va3YIMo0cGjQ==/com.google.android.webview-CGF9AV5bQISXYJGORgrX5Q==/WebViewGoogle.apk!/lib/arm64-v8a:/data/app/~~Gugm69O5JQ-udqt98jkj9Q==/com.google.android.trichromelibrary_636771932-JAgEq9wLhkG1YfBrJNdB8Q==/TrichromeLibrary.apk!/lib/arm64-v8a, permitted_path=/data:/mnt/expand 
+15:49:44.581
+Android
+Log
+ 11-15 10:49:31.001 10973 I/cr_WVCFactoryProvider: Loaded version=124.0.6367.219 minSdkVersion=29 isBundle=false multiprocess=true packageId=2 
+15:49:44.581
+Android
+Debug
+ 11-15 10:49:31.022 10973 D/nativeloader: Load /data/app/~~Gugm69O5JQ-udqt98jkj9Q==/com.google.android.trichromelibrary_636771932-JAgEq9wLhkG1YfBrJNdB8Q==/TrichromeLibrary.apk!/lib/arm64-v8a/libmonochrome_64.so using ns clns-9 from class loader (caller=/data/app/~~saSCm3iTN0va3YIMo0cGjQ==/com.google.android.webview-CGF9AV5bQISXYJGORgrX5Q==/WebViewGoogle.apk): ok 
+15:49:44.581
+Android
+Debug
+ 11-15 10:49:31.024 10973 D/nativeloader: Load /system/lib64/libwebviewchromium_plat_support.so using ns clns-9 from class loader (caller=/data/app/~~saSCm3iTN0va3YIMo0cGjQ==/com.google.android.webview-CGF9AV5bQISXYJGORgrX5Q==/WebViewGoogle.apk): ok 
+15:49:44.581
+Android
+Log
+ 11-15 10:49:31.027 10973 I/chromium: [1115/024931.026843:INFO:variations_seed_loader.cc(66)] Failed to open file for reading.: No such file or directory (2) 
+15:49:44.581
+Android
+Log
+ 11-15 10:49:31.028 10973 I/cr_LibraryLoader: Successfully loaded native library 
+15:49:44.581
+Android
+Log
+ 11-15 10:49:31.028 10973 I/cr_CachingUmaRecorder: Flushed 6 samples from 6 histograms, 0 samples were dropped. 
+15:49:44.581
+Android
+Log
+ 11-15 10:49:31.029 10973 I/cr_VariationsUtils: Loaded seed with age 1966820s 
+15:49:44.581
+Android
+Log
+ 11-15 10:49:31.030 10973 I/cr_CombinedPProvider: #registerProvider() provider:WV.V7@b01b27d isPolicyCacheEnabled:false policyProvidersSize:0 
+15:49:44.581
+Android
+Log
+ 11-15 10:49:31.031 10973 I/cr_PolicyProvider: #setManagerAndSource() 0 
+15:49:44.582
+Android
+Log
+ 11-15 10:49:31.037 10973 I/cr_CombinedPProvider: #linkNativeInternal() 1 
+15:49:44.582
+Android
+Log
+ 11-15 10:49:31.037 10973 I/cr_AppResProvider: #getApplicationRestrictionsFromUserManager() Bundle[EMPTY_PARCEL] 
+15:49:44.582
+Android
+Log
+ 11-15 10:49:31.037 10973 I/cr_PolicyProvider: #notifySettingsAvailable() 0 
+15:49:44.582
+Android
+Log
+ 11-15 10:49:31.037 10973 I/cr_CombinedPProvider: #onSettingsAvailable() 0
+#flushPolicies() 
+15:49:44.582
+Android
+Log
+ 11-15 10:49:31.048 10973 I/eewancity.jcswl: Compiler allocated 5250KB to compile void android.view.ViewRootImpl.performTraversals() 
+15:49:44.582
+Android
+Warning
+ 11-15 10:49:31.217 10973 W/cr_media: BLUETOOTH_CONNECT permission is missing. 
+15:49:44.582
+Android
+Warning
+ 11-15 10:49:31.218 10973 W/cr_media: registerBluetoothIntentsIfNeeded: Requires BLUETOOTH permission 
+15:49:44.582
+Android
+Log
+ 11-15 10:49:31.220 10973 I/EGL_emulation: Opening libGLESv1_CM_emulation.so
+Opening libGLESv2_emulation.so 
+15:49:44.582
+Android
+Warning
+ 11-15 10:49:31.235 10973 W/WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+Set 'android:enableOnBackInvokedCallback="true"' in the application manifest. 
+15:49:44.582
+Android
+Warning
+ 11-15 10:49:31.276 10973 W/HWUI    : Failed to choose config with EGL_SWAP_BEHAVIOR_PRESERVED, retrying without...
+Failed to initialize 101010-2 format, error = EGL_SUCCESS 
+15:49:44.582
+Android
+Log
+ 11-15 10:49:31.334 10973 I/Gralloc4: mapper 4.x is not supported 
+15:49:44.582
+Android
+Log
+ 11-15 10:49:31.478 10973 I/Choreographer: Skipped 37 frames!  The application may be doing too much work on its main thread. 
+15:49:44.582
+Android
+Log
+ 11-15 10:49:31.552 10973 I/HWUI    : Davey! duration=731ms; Flags=1, FrameTimelineVsyncId=390047, IntendedVsync=2689827665219, Vsync=2689944331881, InputEventId=0, HandleInputStart=2689952711531, AnimationStart=2689952713948, PerformTraversalsStart=2689952900489, DrawStart=2690520242864, FrameDeadline=2689844331885, FrameInterval=2689952635531, FrameStartTime=16666666, SyncQueued=2690521943114, SyncStart=2690524685531, IssueDrawCommandsStart=2690527632364, SwapBuffers=2690539842239, FrameCompleted=2690561637614, DequeueBufferDuration=1959, QueueBufferDuration=231084, GpuCompleted=2690561637614, SwapBuffersCompleted=2690544461531, DisplayPresentTime=0, CommandSubmissionCompleted=2690539842239,  
+15:49:44.582
+Android
+Log
+ 11-15 10:49:32.057 10973 I/chromium: [INFO:CONSOLE(64)] "cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation", source: https://cdn.tailwindcss.com/ (64) 
+15:49:44.582
+Android
+Debug
+ 11-15 10:49:32.524 10973 D/EGL_emulation: app_time_stats: avg=158.61ms min=16.33ms max=635.79ms count=7 
+15:49:44.582
+Android
+Log
+ 11-15 10:49:32.668 10973 I/chromium: [INFO:CONSOLE(1)] "[2026-11-15T10:49:32.643Z]  @firebase/firestore: Firestore (11.6.1): enableIndexedDbPersistence() will be deprecated in the future, you can use `FirestoreSettings.cache` instead.", source: https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js (1) 
+15:49:44.582
+Android
+Debug
+ 11-15 10:49:33.539 10973 D/EGL_emulation: app_time_stats: avg=22.43ms min=5.40ms max=141.81ms count=24 
+15:49:44.582
+Android
+Debug
+ 11-15 10:49:34.647 10973 D/EGL_emulation: app_time_stats: avg=26.49ms min=2.40ms max=106.57ms count=22 
+15:49:44.582
+Android
+Debug
+ 11-15 10:49:35.652 10973 D/EGL_emulation: app_time_stats: avg=30.26ms min=9.10ms max=83.16ms count=21 
+15:49:44.582
+Android
+Debug
+ 11-15 10:49:36.741 10973 D/EGL_emulation: app_time_stats: avg=47.34ms min=13.87ms max=94.30ms count=11 
+15:49:44.582
+Android
+Debug
+ 11-15 10:49:36.805 10973 D/ProfileInstaller: Installing profile for com.aistudio.jeewancity.jcswl 
+15:49:44.582
+Android
+Debug
+ 11-15 10:49:37.794 10973 D/EGL_emulation: app_time_stats: avg=56.56ms min=25.23ms max=108.95ms count=12 
+15:49:44.582
+Android
+Debug
+ 11-15 10:49:38.896 10973 D/EGL_emulation: app_time_stats: avg=44.02ms min=20.86ms max=70.95ms count=13 
+15:49:44.582
+Android
+Debug
+ 11-15 10:49:39.994 10973 D/EGL_emulation: app_time_stats: avg=43.50ms min=25.99ms max=76.74ms count=15 
+15:49:44.582
+Android
+Debug
+ 11-15 10:49:41.059 10973 D/EGL_emulation: app_time_stats: avg=43.19ms min=17.67ms max=77.48ms count=15 
+15:49:44.582
+Android
+Log
+ 11-15 10:49:41.724 10973 I/eewancity.jcswl: Background concurrent mark compact GC freed 5364KB AllocSpace bytes, 19(3620KB) LOS objects, 49% free, 4637KB/9275KB, paused 57us,5.859ms total 84.186ms 
+15:49:44.582
+Android
+Warning
+ 11-15 10:49:41.741 10973 W/eewancity.jcswl: ApkAssets: Deleting an ApkAssets object '<empty> and /data/app/~~saSCm3iTN0va3YIMo0cGjQ==/com.google.android.webview-CGF9AV5bQISXYJGORgrX5Q==/WebViewGoogle.apk' with 2 weak references 
+15:49:44.582
+Android
+Debug
+ 11-15 10:49:42.093 10973 D/EGL_emulation: app_time_stats: avg=39.85ms min=15.71ms max=101.06ms count=14 
+15:50:04.495
+Android
+Debug
+ 11-15 10:49:43.172 10973 D/EGL_emulation: app_time_stats: avg=39.12ms min=11.08ms max=85.81ms count=15 
+15:50:04.496
+Android
+Debug
+ 11-15 10:49:44.233 10973 D/EGL_emulation: app_time_stats: avg=34.12ms min=12.70ms max=58.85ms count=15 
+15:50:04.496
+Android
+Debug
+ 11-15 10:49:45.244 10973 D/EGL_emulation: app_time_stats: avg=36.45ms min=19.94ms max=57.86ms count=15 
+15:50:04.496
+Android
+Debug
+ 11-15 10:49:46.330 10973 D/EGL_emulation: app_time_stats: avg=34.36ms min=10.75ms max=56.40ms count=17 
+15:50:04.496
+Android
+Debug
+ 11-15 10:49:47.334 10973 D/EGL_emulation: app_time_stats: avg=36.30ms min=21.04ms max=65.15ms count=16 
+15:50:04.496
+Android
+Debug
+ 11-15 10:49:48.351 10973 D/EGL_emulation: app_time_stats: avg=29.54ms min=9.95ms max=49.47ms count=19 
+15:50:04.496
+Android
+Debug
+ 11-15 10:49:49.423 10973 D/EGL_emulation: app_time_stats: avg=37.17ms min=2.70ms max=77.52ms count=15 
+15:50:04.496
+Android
+Debug
+ 11-15 10:49:50.567 10973 D/EGL_emulation: app_time_stats: avg=38.53ms min=3.10ms max=105.52ms count=15 
+15:50:04.496
+Android
+Debug
+ 11-15 10:49:51.574 10973 D/EGL_emulation: app_time_stats: avg=44.40ms min=9.98ms max=75.69ms count=12 
+15:50:04.496
+Android
+Debug
+ 11-15 10:49:52.676 10973 D/EGL_emulation: app_time_stats: avg=38.75ms min=3.15ms max=112.47ms count=11 
+15:50:04.496
+Android
+Debug
+ 11-15 10:49:53.735 10973 D/EGL_emulation: app_time_stats: avg=42.25ms min=24.05ms max=87.36ms count=13 
+15:50:04.496
+Android
+Debug
+ 11-15 10:49:54.825 10973 D/EGL_emulation: app_time_stats: avg=52.39ms min=7.95ms max=107.95ms count=11 
+15:50:04.496
+Android
+Debug
+ 11-15 10:49:55.937 10973 D/EGL_emulation: app_time_stats: avg=45.72ms min=22.56ms max=102.76ms count=14 
+15:50:04.496
+Android
+Debug
+ 11-15 10:49:56.999 10973 D/EGL_emulation: app_time_stats: avg=41.90ms min=15.25ms max=89.22ms count=13 
+15:50:04.496
+Android
+Debug
+ 11-15 10:49:58.063 10973 D/EGL_emulation: app_time_stats: avg=43.35ms min=7.89ms max=109.56ms count=13 
+15:50:04.496
+Android
+Debug
+ 11-15 10:49:59.106 10973 D/EGL_emulation: app_time_stats: avg=54.55ms min=25.23ms max=153.22ms count=12 
+15:50:04.496
+Android
+Debug
+ 11-15 10:50:00.169 10973 D/EGL_emulation: app_time_stats: avg=54.32ms min=8.89ms max=139.00ms count=10 
+15:50:04.496
+Android
+Debug
+ 11-15 10:50:01.295 10973 D/EGL_emulation: app_time_stats: avg=42.37ms min=10.15ms max=114.02ms count=11 
+15:50:04.496
+Android
+Debug
+ 11-15 10:50:02.321 10973 D/EGL_emulation: app_time_stats: avg=42.79ms min=5.71ms max=112.07ms count=11 
+15:50:24.549
+Android
+Debug
+ 11-15 10:50:03.334 10973 D/EGL_emulation: app_time_stats: avg=29.67ms min=2.28ms max=51.61ms count=17 
+15:50:24.550
+Android
+Debug
+ 11-15 10:50:04.344 10973 D/EGL_emulation: app_time_stats: avg=27.21ms min=2.49ms max=45.35ms count=20 
+15:50:24.550
+Android
+Debug
+ 11-15 10:50:05.351 10973 D/EGL_emulation: app_time_stats: avg=28.96ms min=8.78ms max=50.83ms count=20 
+15:50:24.550
+Android
+Debug
+ 11-15 10:50:06.393 10973 D/EGL_emulation: app_time_stats: avg=26.08ms min=15.72ms max=41.48ms count=20 
+15:50:24.550
+Android
+Debug
+ 11-15 10:50:07.420 10973 D/EGL_emulation: app_time_stats: avg=24.22ms min=7.80ms max=35.11ms count=20 
+15:50:24.550
+Android
+Debug
+ 11-15 10:50:08.461 10973 D/EGL_emulation: app_time_stats: avg=32.18ms min=7.94ms max=71.99ms count=20 
+15:50:24.550
+Android
+Debug
+ 11-15 10:50:09.481 10973 D/EGL_emulation: app_time_stats: avg=27.10ms min=2.28ms max=65.80ms count=20 
+15:50:24.550
+Android
+Debug
+ 11-15 10:50:10.497 10973 D/EGL_emulation: app_time_stats: avg=24.86ms min=2.29ms max=44.16ms count=20 
+15:50:24.550
+Android
+Debug
+ 11-15 10:50:11.505 10973 D/EGL_emulation: app_time_stats: avg=29.43ms min=7.42ms max=54.57ms count=20 
+15:50:24.550
+Android
+Debug
+ 11-15 10:50:12.509 10973 D/EGL_emulation: app_time_stats: avg=27.72ms min=4.52ms max=58.85ms count=18 
+15:50:24.550
+Android
+Debug
+ 11-15 10:50:13.563 10973 D/EGL_emulation: app_time_stats: avg=25.06ms min=5.37ms max=52.33ms count=20 
+15:50:24.550
+Android
+Debug
+ 11-15 10:50:14.604 10973 D/EGL_emulation: app_time_stats: avg=27.88ms min=15.88ms max=47.92ms count=20 
+15:50:24.550
+Android
+Debug
+ 11-15 10:50:15.633 10973 D/EGL_emulation: app_time_stats: avg=24.92ms min=4.07ms max=47.09ms count=20 
+15:50:24.550
+Android
+Debug
+ 11-15 10:50:16.644 10973 D/EGL_emulation: app_time_stats: avg=29.46ms min=16.90ms max=41.60ms count=20 
+15:50:24.550
+Android
+Debug
+ 11-15 10:50:17.655 10973 D/EGL_emulation: app_time_stats: avg=26.90ms min=11.84ms max=41.99ms count=20 
+15:50:24.550
+Android
+Debug
+ 11-15 10:50:18.677 10973 D/EGL_emulation: app_time_stats: avg=24.10ms min=16.33ms max=30.87ms count=20 
+15:50:24.550
+Android
+Debug
+ 11-15 10:50:19.696 10973 D/EGL_emulation: app_time_stats: avg=25.20ms min=12.74ms max=32.59ms count=20 
+15:50:24.550
+Android
+Debug
+ 11-15 10:50:20.725 10973 D/EGL_emulation: app_time_stats: avg=27.39ms min=9.92ms max=44.08ms count=20 
+15:50:24.550
+Android
+Debug
+ 11-15 10:50:21.784 10973 D/EGL_emulation: app_time_stats: avg=28.02ms min=7.76ms max=47.46ms count=20 
+15:50:24.550
+Android
+Debug
+ 11-15 10:50:22.833 10973 D/EGL_emulation: app_time_stats: avg=27.35ms min=9.01ms max=56.94ms count=20 
+15:50:44.656
+Android
+Debug
+ 11-15 10:50:23.836 10973 D/EGL_emulation: app_time_stats: avg=26.90ms min=6.97ms max=51.57ms count=20 
+15:50:44.656
+Android
+Debug
+ 11-15 10:50:24.872 10973 D/EGL_emulation: app_time_stats: avg=26.59ms min=9.72ms max=48.52ms count=20 
+15:50:44.656
+Android
+Debug
+ 11-15 10:50:25.880 10973 D/EGL_emulation: app_time_stats: avg=24.59ms min=4.75ms max=32.69ms count=20 
+15:50:44.656
+Android
+Debug
+ 11-15 10:50:26.907 10973 D/EGL_emulation: app_time_stats: avg=29.12ms min=2.98ms max=71.02ms count=20 
+15:50:44.656
+Android
+Debug
+ 11-15 10:50:27.956 10973 D/EGL_emulation: app_time_stats: avg=31.04ms min=7.46ms max=70.20ms count=20 
+15:50:44.656
+Android
+Debug
+ 11-15 10:50:28.993 10973 D/EGL_emulation: app_time_stats: avg=25.70ms min=6.50ms max=52.81ms count=20 
+15:50:44.656
+Android
+Debug
+ 11-15 10:50:30.033 10973 D/EGL_emulation: app_time_stats: avg=30.52ms min=7.76ms max=48.95ms count=20 
+15:50:44.656
+Android
+Debug
+ 11-15 10:50:31.054 10973 D/EGL_emulation: app_time_stats: avg=26.98ms min=8.55ms max=46.13ms count=20 
+15:50:44.656
+Android
+Debug
+ 11-15 10:50:32.081 10973 D/EGL_emulation: app_time_stats: avg=30.16ms min=20.34ms max=56.74ms count=20 
+15:50:44.656
+Android
+Debug
+ 11-15 10:50:33.096 10973 D/EGL_emulation: app_time_stats: avg=27.75ms min=18.41ms max=43.77ms count=20 
+15:50:44.656
+Android
+Debug
+ 11-15 10:50:34.136 10973 D/EGL_emulation: app_time_stats: avg=28.30ms min=12.34ms max=70.53ms count=20 
+15:50:44.656
+Android
+Debug
+ 11-15 10:50:35.202 10973 D/EGL_emulation: app_time_stats: avg=25.27ms min=4.05ms max=48.51ms count=21 
+15:50:44.656
+Android
+Debug
+ 11-15 10:50:36.235 10973 D/EGL_emulation: app_time_stats: avg=28.69ms min=11.76ms max=45.98ms count=20 
+15:50:44.656
+Android
+Debug
+ 11-15 10:50:37.242 10973 D/EGL_emulation: app_time_stats: avg=27.51ms min=13.76ms max=52.05ms count=20 
+15:50:44.656
+Android
+Debug
+ 11-15 10:50:38.251 10973 D/EGL_emulation: app_time_stats: avg=29.04ms min=14.33ms max=58.23ms count=19 
+15:50:44.656
+Android
+Debug
+ 11-15 10:50:39.315 10973 D/EGL_emulation: app_time_stats: avg=25.64ms min=3.62ms max=67.66ms count=21 
+15:50:44.656
+Android
+Debug
+ 11-15 10:50:40.348 10973 D/EGL_emulation: app_time_stats: avg=30.23ms min=16.13ms max=55.34ms count=20 
+15:50:44.656
+Android
+Debug
+ 11-15 10:50:41.350 10973 D/EGL_emulation: app_time_stats: avg=28.31ms min=2.78ms max=52.03ms count=20 
+15:50:44.656
+Android
+Debug
+ 11-15 10:50:42.360 10973 D/EGL_emulation: app_time_stats: avg=30.75ms min=16.61ms max=65.89ms count=19 
