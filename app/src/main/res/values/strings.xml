@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Jeewan City</string>
+
+    <!--
+        Facebook OAuth Client Configuration:
+        - Client App ID only (never place the Facebook App Secret in client APK resources;
+          configure the App Secret exclusively in Firebase Console -> Authentication -> Sign-in method -> Facebook).
+    -->
+    <string name="facebook_app_id" translatable="false">2652000941902639</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb2652000941902639</string>
 </resources>
